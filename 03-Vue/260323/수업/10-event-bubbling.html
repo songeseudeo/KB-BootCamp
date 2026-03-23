@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+
+        <!--
+        ========================================================
+        03. 이벤트 전파(Event Propagation)와 버블링
+        ========================================================
+
+        공식 문서
+        https://vuejs.org/guide/essentials/event-handling.html#event-modifiers
+
+        DOM 이벤트는 발생하면 특정 요소에서 끝나는 것이 아니라
+        DOM 트리를 따라 전파된다.
+        이벤트 전파는 “같은 이벤트 타입”일 때만 발생
+
+        이벤트 전파 단계
+
+        값    단계               의미
+        1     Capturing Phase    부모 → 자식으로 내려오는 단계
+        2     Target Phase       실제 이벤트가 발생한 요소
+        3     Bubbling Phase     자식 → 부모로 올라가는 단계
+
+        Bubbling phase (버블링 단계)
+        inner → outer → body → html → document → window
+
+        기본적으로 Vue의 일반적인 이벤트 처리는 버블링 단계에서 실행된다.
+
+        -->
+
+        <h2>1. 이벤트 버블링 확인</h2>
+
+
+        <div id="outer" @click="outerClick"
+            style="width:200px;height:200px;border:2px solid black;background:aqua;padding:20px">
+
+            OUTER 영역
+
+            <div id="inner" @click="innerClick"
+                style="width:100px;height:100px;border:2px solid black;background:yellow">
+
+                INNER 영역
+
+            </div>
+
+        </div>
+
+        <hr>
+
+        <!--
+        ========================================================
+        버블링 차단
+        ========================================================
+
+        이벤트는 기본적으로 부모 요소로 전파된다.
+
+        이 전파를 막기 위해 사용
+
+        event.stopPropagation()
+
+        Vue에서는 이벤트 수식어로 간단히 처리 가능
+
+        @click.stop="method"
+
+        .stop 은 이벤트가 부모로 전파되는 것을 차단한다.
+        -->
+
+        <h2>2. 이벤트 버블링 차단 (.stop)</h2>
+
+        <div @click="outerStopClick"
+            style="width:200px;height:200px;border:2px solid red;background:lightblue;padding:20px">
+
+            OUTER 영역
+
+            <div @click.stop="innerStopClick" style="width:100px;height:100px;border:2px solid red;background:orange">
+
+                INNER 영역
+
+            </div>
+
+        </div>
+
+        <hr>
+
+        <!--
+        ========================================================
+        .self 수식어
+        ========================================================
+
+        .self(event.target === 이벤트가 걸린 요소)
+        이벤트가 자기 요소에서 직접 발생했을 때만 실행된다.
+
+        자식 요소에서 발생한 클릭 이벤트는 부모까지 버블링될 수 있지만,
+        .self 조건에 의해 해당 메서드는 실행되지 않는다.
+
+        예
+        @click.self="method"
+        -->
+
+        <h2>3. .self 수식어</h2>
+
+        <div @click.self="selfClick" @click="outerClick"
+            style="width:200px;height:200px;border:2px solid green;background:lightgreen;padding:20px">
+
+            SELF 영역
+
+            <div @click="innerClick" style="width:100px;height:100px;border:2px solid green;background:white">
+
+                INNER 영역
+
+            </div>
+
+        </div>
+        <!--
+        ========================================================
+        4. .stop + .self 함께 사용
+        ========================================================
+
+        .self → 부모에서 직접 클릭만 허용
+        .stop → 자식에서 이벤트 전파 차단
+
+        주로 모달, 드롭다운 등에서 사용
+
+        - 배경 클릭 → 닫기
+        - 내부 클릭 → 유지
+
+
+        
+        -->
+
+        <h2>4. .stop + .self 함께 사용</h2>
+
+        <div @click.self="closeModal"
+            style="width:200px;height:200px;border:2px solid purple;background:lavender;padding:20px">
+
+            OVERLAY (배경)
+            <!-- <div @click.stop="modalClick" style="width:120px;height:120px;border:2px solid purple;background:white">  -->
+            <!--버블링은 항상 일어나고, closeModal 에 실행코드가 없어서 안보일뿐 그래서 click.stop 을 넣어주는것이 좋다 -->
+
+            <div style="width:120px;height:120px;border:2px solid purple;background:white">
+
+                MODAL 내용
+
+                <button @click.stop="confirm">확인</button>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <script src="https://unpkg.com/vue@3"></script>
+
+    <script>
+        Vue.createApp({
+
+            methods: {
+
+                /*
+                ====================================
+                버블링 확인
+                ====================================
+                */
+
+                outerClick(e) {
+
+                    console.log("OUTER CLICK")
+
+                    // eventPhase
+                    // 1 : Capturing Phase
+                    // 2 : Target Phase
+                    // 3 : Bubbling Phase
+                    console.log("eventPhase :", e.eventPhase)
+
+                    // currentTarget : 이벤트 핸들러가 연결된 요소
+                    console.log("currentTarget :", e.currentTarget)
+
+                    // target : 실제 이벤트가 발생한 요소
+                    console.log("target :", e.target)
+
+                },
+
+                innerClick(e) {
+
+                    console.log("INNER CLICK")
+
+                    console.log("eventPhase :", e.eventPhase)
+                    console.log("currentTarget :", e.currentTarget)
+                    console.log("target :", e.target)
+
+                },
+
+                /*
+                ====================================
+                버블링 차단 예제
+                ====================================
+                */
+
+                outerStopClick() {
+                    console.log("OUTER CLICK (stop)")
+                },
+
+                innerStopClick() {
+                    console.log("INNER CLICK (stop)")
+                },
+
+                /*
+                ====================================
+                .self 예제
+                ====================================
+                */
+
+                selfClick() {
+                    console.log("SELF 영역 클릭")
+                },
+
+                /*
+                ====================================
+                .stop + .self 예제
+                ====================================
+                */
+
+                closeModal() {
+                    console.log("모달 닫기 (배경 클릭)")
+                },
+
+                confirm() {
+                    console.log("확인 버튼 클릭")
+                }
+                , modalClick() {
+                    console.log("MODAL CLICK")
+                },
+
+            }
+
+        }).mount("#app")
+    </script>
+
+
+    <!--
+    실행 결과
+
+    1) 첫 번째 예제에서 inner 클릭
+    → inner 로그 → outer 로그
+
+    2) 첫 번째 예제에서 outer 클릭
+    → outer 로그
+
+    3) .stop 적용 예제에서 inner 클릭
+    → inner 실행, outer 실행 안 됨
+
+    4) .self 예제에서 SELF 영역 직접 클릭
+    → selfClick 실행
+    → outerClick도 실행
+
+    5) .self 예제에서 INNER 영역 클릭
+    → innerClick 실행
+    → 버블링으로 outerClick 실행
+    → 하지만 selfClick은 실행되지 않음
+
+    6) .stop + .self 예제
+
+    - 배경 클릭
+    → closeModal 실행
+
+    - MODAL 영역 클릭
+    → 아무 일도 안 일어남 (stop)
+
+    - 버튼 클릭
+    → confirm 실행
+    → closeModal 실행 안 됨
+
+    -->
+
+    <!--
+
+    .stop
+    이벤트 전파 중단
+    event.stopPropagation()과 동일
+    부모 이벤트 실행되면 안 될 때 사용
+    중복 실행 방지
+
+    .self
+    이벤트가 자기 요소에서 직접 발생했을 때만 실행
+
+    .prevent
+    기본 동작 방지
+    event.preventDefault()와 동일
+
+    예:
+    <form @submit.prevent></form>
+
+    ----------------------------------------
+    공식 문서 참고
+    ----------------------------------------
+
+    이벤트 수식어는 함께 연결해서 사용할 수 있다.
+    예:
+    @click.stop.prevent="method"
+
+    이벤트 핸들러 없이 수식어만 사용할 수도 있다.
+    예:
+    @click.stop
+    @submit.prevent
+
+    수식어는 작성한 순서대로 적용되므로 순서가 중요하다.
+
+    예:
+    @click.prevent.self
+    → 먼저 prevent 실행 후 self 조건 (event.target === 이벤트가 걸린 요소) 검사
+
+    @click.self.prevent
+    → self 조건(event.target === 이벤트가 걸린 요소) 만족 시에만 prevent 실행
+
+    -->
+</body>
+
+</html>

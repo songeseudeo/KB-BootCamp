@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Vue3 인라인 스타일 바인딩</title>
+</head>
+
+<body>
+
+    <div id="app">
+
+        <!--
+        ====================================================
+        1. 인라인 스타일 바인딩 (Inline Style Binding)
+        ====================================================
+
+        HTML 요소의 style 속성을 동적으로 제어
+
+        사용 문법
+        v-bind:style
+
+        축약형
+        :style
+
+        공식 문서
+        https://vuejs.org/guide/essentials/class-and-style
+
+        주의사항
+        CSS는 kebab-case를 사용하지만
+        Vue style 객체에서는 camelCase를 사용한다.
+
+        예
+        background-color → backgroundColor
+        font-size → fontSize
+        -->
+
+        <h1>1. 인라인 스타일 바인딩</h1>
+
+        <!-- ================================================= -->
+        <!-- 1-1 객체 스타일 바인딩(권장)  -->
+        <!-- ================================================= -->
+
+        <h2>1-1 객체 스타일 바인딩</h2>
+
+        <!--
+        style 객체를 data에 정의하고
+        :style 속성으로 연결한다.
+        -->
+
+        <button :style="style1" @mouseover="hoverStyle('obj')" @mouseout="leaveStyle('obj')">
+            테스트 버튼
+        </button>
+
+        <hr>
+
+        <!-- ================================================= -->
+        <!-- 1-2 템플릿 객체 스타일 바인딩-->
+        <!-- ================================================= -->
+
+        <h2>1-2 템플릿 객체 스타일 바인딩</h2>
+
+        <!--
+        객체를 data에 따로 만들지 않고
+        템플릿 내부에서 바로 작성할 수 있다.
+        -->
+
+        <button :style="{ backgroundColor, color }" @mouseover="hoverStyle('inline')" @mouseout="leaveStyle('inline')">
+            테스트 버튼
+        </button>
+
+        <hr>
+
+        <!-- ================================================= -->
+        <!-- 1-3 배열 스타일 바인딩 -->
+        <!-- ================================================= -->
+
+        <h2>1-3 배열 스타일 바인딩</h2>
+
+        <!--
+        여러 스타일 객체를 배열 형태로 묶어 적용할 수 있다.
+        배열 안에 있는 객체들이 순서대로 병합되어 적용됨
+        같은 속성이 있으면 뒤에 있는 값이 적용됨
+        -->
+
+        <button :style="[myColor, myLayout]">
+            테스트 버튼
+        </button>
+
+    </div>
+
+
+    <script src="https://unpkg.com/vue@3"></script>
+
+    <script>
+        Vue.createApp({
+
+            data() {
+                return {
+
+                    /*
+                    1-1 객체 스타일 바인딩
+                    */
+                    style1: {
+                        backgroundColor: "aqua",
+                        color: "black"
+                    },
+
+                    /*
+                    1-2 템플릿 객체 스타일 바인딩
+                    */
+                    backgroundColor: "aqua",
+                    color: "black",
+
+                    /*
+                    1-3 배열 스타일 바인딩
+                    */
+                    myColor: {
+                        backgroundColor: "purple",
+                        color: "yellow"
+                    },
+
+                    myLayout: {
+                        color:"red",// 주석처리하고 확인
+                        width: "150px",
+                        height: "80px",
+                        textAlign: "center"
+                    }
+                }
+            },
+
+            methods: {
+
+                /*
+                ====================================
+                공통 이벤트 처리 (type 분기)
+                ====================================
+                */
+
+                hoverStyle(type) {
+                    if (type === "obj") {
+                        this.style1.backgroundColor = "purple"
+                        this.style1.color = "yellow"
+                    } else {
+                        this.backgroundColor = "purple"
+                        this.color = "yellow"
+                    }
+                },
+
+                leaveStyle(type) {
+                    if (type === "obj") {
+                        this.style1.backgroundColor = "aqua"
+                        this.style1.color = "black"
+                    } else {
+                        this.backgroundColor = "aqua"
+                        this.color = "black"
+                    }
+                }
+            }
+
+        }).mount("#app")
+    </script>
+
+</body>
+
+</html>
