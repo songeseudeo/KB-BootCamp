@@ -4,18 +4,18 @@
 - **주제**: 단일 파일 컴포넌트를 이용한 Vue 애플리케이션 개발
 - 
 - **프로젝트 만들기:**
-- npm init vue : vite 기반으로 프로젝트 구성
-- cd test-vue-add
-- npm install
-- npm run dev
+1. npm init vue : vite 기반으로 프로젝트 구성
+2. cd test-vue-add
+3. npm install
+4. npm run dev
 - **컴포넌트 등록:** <script/> <template/> <style/>
 - <Kbd>전역 방법</kbd> : 한 번만 등록하면 바로 사용 가능 (사용하지 않는 컴포넌트에서도 포함)
-- import { createApp } from 'vue';
-- import App from './App.vue';
-- import CheckboxItem from './components/CheckboxItem.vue';
-- createApp(App)
-- .component('CheckboxItem', CheckboxItem)
-- .mount('#app');
+  import { createApp } from 'vue';
+  import App from './App.vue';
+  import CheckboxItem from './components/CheckboxItem.vue';
+  createApp(App)
+    .component('CheckboxItem', CheckboxItem)
+    .mount('#app');
 - <Kbd>지역 방법</kbd> : 사용하는 컴포넌트내에서 매번 등록 (권장)
 - **단어**: 핵심 키워드나 개념 요약
 - **함수**: 개념 요약
