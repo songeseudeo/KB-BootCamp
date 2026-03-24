@@ -5,10 +5,10 @@
 - **중요** 1. 컴포넌트를 나누는 방법/규칙 2. props 3. emit
   
 - **프로젝트 만들기:**
-1. npm init vue : vite 기반으로 프로젝트 구성
-2. cd test-vue-add
-3. npm install
-4. npm run dev
+1. `npm init vue` : vite 기반으로 프로젝트 구성
+2. `cd test-vue-add`
+3. `npm install`
+4. `npm run dev`
    
 - **컴포넌트 등록:** 
 - <Kbd>전역 방법</kbd> : 한 번만 등록하면 바로 사용 가능 (사용하지 않는 컴포넌트에서도 포함) [`전역 방법`](./전역%20방법)
