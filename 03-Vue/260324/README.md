@@ -9,14 +9,8 @@
 3. npm install
 4. npm run dev
 - **컴포넌트 등록:** <script/> <template/> <style/>
-- <Kbd>전역 방법</kbd> : 한 번만 등록하면 바로 사용 가능 (사용하지 않는 컴포넌트에서도 포함)
-  import { createApp } from 'vue';
-  import App from './App.vue';
-  import CheckboxItem from './components/CheckboxItem.vue';
-  createApp(App)
-    .component('CheckboxItem', CheckboxItem)
-    .mount('#app');
-- <Kbd>지역 방법</kbd> : 사용하는 컴포넌트내에서 매번 등록 (권장)
+- <Kbd>전역 방법</kbd> : 한 번만 등록하면 바로 사용 가능 (사용하지 않는 컴포넌트에서도 포함) [전역&20방법]
+- <Kbd>지역 방법</kbd> : 사용하는 컴포넌트내에서 매번 등록 (권장) [지역%20방법]
 - **단어**: 핵심 키워드나 개념 요약
 - **함수**: 개념 요약
 - **중요**: 1. 컴포넌트를 나누는 방법/규칙 2. props 3. emit
