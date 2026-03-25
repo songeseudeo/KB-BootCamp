@@ -4,10 +4,10 @@
 - **주제**: Vue를 사용한 TodoList 예제 리펙토링
 
 ## 2. 📝 오늘의 실습 & 과제
-- [`App`](./App.vue): 전체 데이터(todoList)와 추가/삭제/수정 로직 관리
-- [`InputTodo`](./InputTodo.vue): 사용자 입력 및 엔터/클릭 이벤트 발생
-- [`TodoList`](./TodoList.vue): 리스트를 반복(v-for)해서 화면에 배치
-- [`TodoListItem`](./TodoListItem.vue): 개별 할 일 항목 디자인 및 상태 변경
+- [`App`](./03-Vue/260325/수업/App.vue): 전체 데이터(todoList)와 추가/삭제/수정 로직 관리
+- [`InputTodo`](./03-Vue/260325/수업/InputTodo.vue): 사용자 입력 및 엔터/클릭 이벤트 발생
+- [`TodoList`](./03-Vue/260325/수업/TodoList.vue): 리스트를 반복(v-for)해서 화면에 배치
+- [`TodoListItem`](./03-Vue/260325/수업/TodoListItem.vue): 개별 할 일 항목 디자인 및 상태 변경
 
 ## 3. 🚨 오류 및 해결 (Troubleshooting)
 - **문제**: 데이터는 분명히 존재하는데 화면에 리스트가 전혀 나타나지 않음.
