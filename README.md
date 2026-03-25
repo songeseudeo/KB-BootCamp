@@ -6,6 +6,6 @@
 * 2026.03 ~ 2026.08 (6개월)
 
 ## 📂 폴더 구조
-* `01-HTML-CSS-JS`
-* `02-NODE`
-* `03-Vue`
+- [01-HTML-CSS-JS](./01-HTML-CSS-JS)
+- [02-NODE](./02-Node)
+- [03-Vue](./03-Vue)
