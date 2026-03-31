@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>04-08 watch 비동기 처리</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.8; margin: 20px; }
+    .box { border: 1px solid #ccc; padding: 12px; margin-bottom: 15px; }
+    .result { background: #f7f7f7; padding: 8px; margin-top: 8px; }
+    .guide { color: #555; font-size: 14px; }
+    .loading { color: #b00020; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <!--
+  ==================================================
+   watch 
+
+  1. watch는 값이 바뀔 때 추가 로직을 실행하기에 적합
+  2. API 호출 같은 비동기 처리
+
+  ==================================================
+  -->
+
+  <div id="app">
+    <div class="box">
+      <h1>watch 비동기 처리</h1>
+      이름 : <input type="text" v-model.trim="name" placeholder="영문 두글자 이상을 입력하세요" /><br />
+
+      <ul>
+        <li v-for="c in contacts" :key="c.no">{{ c.name }} : {{ c.tel }}</li>
+      </ul>
+
+      <div v-show="isLoading" class="loading">검색중</div>
+
+      <div class="result">현재 검색어 : {{ name }}</div>
+      <p class="guide">
+        watch는 값 변화 감지, methods는 실제 비동기 요청 처리 역할을 담당<br>
+        jo 입력 <br>
+      - 이름을 2글자 이상 입력하면 검색이 시작된다.<br>
+      - 검색 중에는 "검색중" 문구가 보인다.<br>
+      - 입력값이 짧아지면 결과를 비운다.<br>
+      </p>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://unpkg.com/axios"></script>
+  <script src="https://unpkg.com/lodash"></script>
+  <!-- Vue 자체에는 debounce가 없음
+  그래서 외부 라이브러리 사용
+  입력할 때마다 API 호출되는 걸 막기 위해 -->
+  <script>
+    const BASEURL = 'https://contactsvc.bmaster.kro.kr';
+
+    var vm = Vue.createApp({
+      name: 'App',
+      data() {
+        return {
+          name: '',
+          contacts: [],
+          isLoading: false,
+        };
+      },
+      watch: {
+        /*
+        name이 바뀌면 실행된다.
+        검색어가 2글자 이상이면 조회를 시작한다.
+        */
+        name(current) {
+          if (current.length >= 2) {
+            this.fetchContacts();
+          } else {
+            this.contacts = [];
+          }
+        },
+      },
+      methods: {
+        /*
+        _.debounce
+        - 짧은 시간 안에 여러 번 호출되어도
+          마지막 호출 기준으로 300ms 뒤 한 번만 실행한다.
+        */
+        fetchContacts: _.debounce(function () {
+          this.isLoading = true;
+          axios
+            .get(BASEURL + `/contacts_long/search/${this.name}`)
+            .then((response) => {
+              this.contacts = response.data;
+            })
+            .finally(() => {
+              this.isLoading = false;
+            });
+        }, 300),
+      },
+    }).mount('#app');
+  </script>
+</body>
+</html>

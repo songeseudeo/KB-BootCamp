@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>04-09 객체 감시 (deep watch)</title>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.8; margin: 20px; }
+    .box { border: 1px solid #ccc; padding: 12px; margin-bottom: 15px; }
+    .result { background: #f7f7f7; padding: 8px; margin-top: 8px; }
+    .guide { color: #555; font-size: 14px; }
+    .concept { background: #fcfcfc; border-left: 4px solid #999; padding: 12px; margin-top: 12px; }
+    .concept h3 { margin-top: 0; }
+    .concept ul { margin: 8px 0 0 20px; }
+    code { background: #f1f1f1; padding: 2px 5px; border-radius: 4px; }
+    a { color: #1565c0; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <!--
+  ==================================================
+  객체 감시 (deep watch)
+
+  1. 객체를 watch할 때는 기본적으로 객체 "참조 변경"만 감지한다.
+  2. 객체 내부 속성의 변경까지 감지하려면 deep: true가 필요하다.
+  3. handler는 값이 바뀌었을 때 실행되는 함수이다.
+  4. immediate: true를 주면 처음 화면이 만들어질 때도 handler가 즉시 실행된다.
+
+  공식 문서
+  - Watchers Guide: https://vuejs.org/guide/essentials/watchers
+  - Options API - watch: https://vuejs.org/api/options-state.html#watch
+
+  ==================================================
+  -->
+
+  <div id="app">
+    <div class="box">
+      <h1>04-09 객체 감시 (deep watch)</h1>
+
+      x : <input type="text" v-model.number="values.x" /><br />
+      y : <input type="text" v-model.number="values.y" /><br />
+
+    <p id="sumText">덧셈 결과 : {{ sum }}</p>
+
+      <div class="result">
+        values.x : {{ values.x }}, values.y : {{ values.y }}
+      </div>
+    </div>
+
+
+
+    <div class="box concept">
+      <h3>실행하면서 확인할 내용</h3>
+      <ul>
+        <li><strong>1단계</strong> : 현재 상태에서 x, y를 바꾸고 합계가 즉시 변하는지 확인한다.</li>
+        <li><strong>2단계</strong> : <code>deep: true</code>를 주석 처리한 뒤 다시 실행해서 내부 속성 변경이 감지되지 않는지 확인한다.</li>
+        <li><strong>3단계</strong> : <code>immediate: true</code>를 주석 처리한 뒤 새로고침해서 시작할 때 handler가 실행되지 않는지 확인한다.</li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/vue"></script>
+  <script>
+    var vm = Vue.createApp({
+      name: 'App',
+
+      data() {
+        return {
+          values: { x: 0, y: 0 },
+          prevValues: { x: 0, y: 0 }, // 이전 값 저장용
+          sum: 0,
+        };
+      },
+
+      watch: {
+        values: {
+
+
+          // 객체 deep watch (values)
+          // - 객체 전체를 감시
+          // - 내부 속성(x, y) 변화까지 감지하려면 deep: true 필요
+          // - oldValue와 current가 같을 수 있음 (참조 때문)
+          // - 이전 값 비교 용도로는 부적합
+
+
+          /*
+          handler ->  handler 형태는 옵션을 추가할 수 있음
+          - values 객체가 변경되었을 때 실행된다.
+          - current : 현재 값
+          - oldValue : watch가 전달하는 이전 값
+
+
+        - deep watch에서는 oldValue와 current가 같을 수 있다.
+        - 이유: 객체는 참조이기 때문
+
+          콘솔은 객체의 "과거 상태"가 아니라
+          현재 시점의 객체 상태를 보여줌
+
+          1. x, y 값을 바꾸면서 콘솔 로그를 확인한다.
+          2. sum 값이 함께 변경되는지 확인한다.
+          */
+          handler: function (current, oldValue) {
+            console.log('watch 실행');
+            console.log('직접 저장한 이전 값 prevValues:', this.prevValues);
+            console.log('watch가 준 oldValue:', oldValue);
+            console.log('현재 값 current:', current);
+
+
+            const result = Number(current.x) + Number(current.y);
+            this.sum = isNaN(result) ? 0 : result;
+
+     
+            // 마지막에 현재 값을 복사해서 저장
+            this.prevValues = { ...current };
+          },
+
+          /*
+          deep: true
+          - 객체 내부 속성 변경까지 감지한다.
+          - values.x, values.y 변경도 감시할 수 있다.
+
+          1. 현재 상태에서 x, y를 변경해 본다.
+             -> handler가 실행된다.
+
+          2. 아래 deep: true 를 주석 처리하고 다시 실행한다.
+             -> x, y를 바꿔도 handler가 실행되지 않는다.
+             -> 이유: 객체 내부 속성 변경은 기본 감시 대상이 아니기 때문이다.
+
+          3. 다시 deep: true 를 살리고 실행한다.
+             -> 내부 속성 변경이 다시 감지된다.
+          */
+          deep: true,
+
+          /*
+          immediate: true
+          - 컴포넌트가 처음 만들어질 때 handler를 즉시 1회 실행한다.
+          - 초기 계산이 필요할 때 유용하다.
+
+          1. immediate: true 상태에서 새로고침한다.
+             -> 처음부터 handler가 실행된다.
+
+          2. immediate: true 를 주석 처리하고 새로고침한다.
+             -> 처음에는 handler가 실행되지 않는다.
+             -> 이후 x, y 값을 바꿀 때만 실행된다.
+          */
+          immediate: true,
+
+        },
+      },
+    }).mount('#app');
+  </script>
+</body>
+</html>
