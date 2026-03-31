@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Vue3 v-model 심화 실습</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            line-height: 1.8;
+        }
+
+        .box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!--
+    ==================================================
+    v-model 심화 기능
+
+    1. checkbox true-value / false-value
+    2. modifier (.lazy .number .trim)
+    3. v-model 한글 입력 문제 해결
+
+    공식문서
+    https://vuejs.org/guide/essentials/forms.html
+    ==================================================
+    -->
+
+    <div id="app">
+
+        <h1>v-model 심화 실습</h1>
+
+        <!--
+        1. checkbox true-value / false-value
+
+        checkbox 기본값
+        true / false
+
+        true-value / false-value를 사용하면
+        사용자 정의 값으로 변경할 수 있다.
+        -->
+
+        <div class="box">
+
+            <h3>1. checkbox true-value / false-value</h3>
+
+            위의 내용에 동의하십니까?
+
+            <br><br>
+
+            <input type="checkbox" v-model="agree" true-value="yes" false-value="no">
+
+            <p>선택된 값 : {{ agree }}</p>
+
+        </div>
+
+
+        <!--
+        https://vuejs.org/guide/essentials/forms.html#modifiers
+        2. modifier
+
+        v-model modifier는 입력 처리 방식을 변경한다.
+
+        .lazy : change 이벤트 발생 시 업데이트
+
+        .number : 문자열 → 숫자 자동 변환
+
+        .trim : 앞뒤 공백 제거
+
+        -->
+
+        <div class="box">
+
+            <h3>2. modifier</h3>
+
+            <h4>.lazy</h4>
+
+            <input type="text" v-model.lazy="lazyValue">
+
+            <p>lazy 값 : {{ lazyValue }}</p>
+            <p>.lazy  : 입력 후 바로 반영되는지 확인하고, 포커스를 밖으로 옮겨본다.</p>   
+
+            <h4>.number</h4>
+
+            <input type="text" v-model.number="num">
+
+            <p>숫자 값 : {{ num }}</p>
+            <p>숫자 입력 후 타입과 값 확인</p>   
+
+
+            <h4>.trim</h4>
+
+            <input type="text" v-model.trim="trimMessage">
+
+            <p>trim 결과 : "{{ trimMessage }}"</p>
+            <p>.trim  : 앞뒤 공백을 넣고 결과 확인</p>   
+
+        </div>
+
+
+        <!--
+        3. v-model 한글 입력 문제
+
+        IME 입력 과정에서
+        v-model이 예상대로 동작하지 않는 경우가 있다.
+
+        이 경우
+
+        :value + @input
+
+        방식으로 직접 처리한다.
+        -->
+        <!--
+         IME(한글) 입력 비교
+        IME = Input Method Editor => 한글, 일본어, 중국어처럼 조합 입력이 필요한 방식
+        한국어/중국어/일본어처럼 IME를 사용하는 언어는
+        v-model이 조합(composition) 중에는 업데이트되지 않는다.
+
+        조합 중간 상태에도 반응하려면
+        :value + @input 조합을 직접 사용한다.
+        -->
+        <div class="box">
+            <h3>3. v-model 한글 입력 문제 비교</h3>
+
+            <h4>3-1. v-model 사용</h4>
+            <input type="text" v-model="koreanModel">
+            <div class="result">v-model 값 : {{ koreanModel }}</div>
+
+            <h4>3-2. :value + @input 사용</h4>
+            <input type="text" :value="koreanInput" @input="changeName">
+            <div class="result">input 이벤트 값 : {{ koreanInput }}</div>
+
+            <p class="guide">
+                한글을 천천히 입력하면서 두 입력창의 반응 차이를 비교한다.
+                조합 중간 상태까지 즉시 처리하려면 :value + @input 방식을 사용한다.
+            </p>
+        </div>
+
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <script>
+
+        const app = Vue.createApp({
+
+            data() {
+                return {
+
+                    // checkbox 값
+                    agree: "no",
+
+                    // modifier: 옵션별 
+                    lazyValue: "",
+                    num: 0,
+                    trimMessage: "",
+
+                    // 한글 입력 처리
+                    koreanModel: "",
+                    koreanInput: ""
+
+                }
+            },
+
+            methods: {
+
+                /*
+               
+                1. this
+                - 현재 Vue 컴포넌트 인스턴스를 가리킴
+                - vm과 동일한 객체
+
+                2. 데이터 바인딩(의미: 데이터 바인딩 = 데이터와 화면을 연결하는 것)
+                - this로 data에 접근 가능
+                - 데이터 변경 시 화면(View)이 자동 갱신됨 (반응형)
+
+                3. input 이벤트 처리
+                - 입력값을 직접 가져와 data를 수동으로 갱신
+                */
+                changeName(e) {
+                    // input 요소의 현재 값을 가져와서
+                     // Vue 데이터(koreanInput)에 반영
+                    this.koreanInput = e.target.value
+
+                }
+
+            }
+
+        })
+
+        app.mount("#app")
+
+    </script>
+
+</body>
+
+</html>
+
+
+
+<!--
+
+v-model은 폼 입력 바인딩을 단순화한 전용 디렉티브이다.
+내부적으로는 요소 종류에 따라 속성 바인딩과 이벤트 처리를 조합해 동작한다.
+
+예)
+<input v-model="name">
+
+
+ input / textarea 기준으로 보면 v-model은 다음과 비슷하게 동작한다.
+
+:value="name"
+@input="event => name = event.target.value"
+
+==> 1. 사용자가 input에 글자를 입력
+    2. input 이벤트 발생
+    3. $event.target.value로 입력값 가져옴
+    4. name에 대입
+
+checkbox / radio / select는 요소 종류에 따라
+다른 속성과 이벤트 조합으로 동작한다.
+
+checkbox, radio
+:checked="..."
+@change="..."
+
+select
+:value="..."
+@change="..."
+
+따라서 v-model은 별도의 축약형이 없다.
+-->

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Vue3 조건 렌더링 실습</title>
+    <style>
+        body {
+            font-family: Arial;
+            line-height: 1.8;
+        }
+
+        .box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        .error-img {
+            width: 15px;
+            height: 15px;
+            vertical-align: middle;
+        }
+
+        .result {
+            background-color: #f7f7f7;
+            padding: 8px;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!--
+    ==================================================
+    조건 렌더링 디렉티브
+
+    1. v-show
+    2. v-if
+    3. v-else-if
+    4. v-else
+
+    Vue는 조건에 따라 요소를 표시하거나 숨길 수 있다.
+
+    공식문서
+    https://vuejs.org/guide/essentials/conditional.html
+    https://vuejs.org/api/built-in-directives.html
+    ==================================================
+    -->
+
+    <div id="app">
+
+        <h1>Vue3 조건 렌더링 실습</h1>
+
+        <!--
+        1. v-show
+
+        v-show는 조건에 따라 요소를 보이거나 숨긴다.
+        요소는 DOM에 계속 남아 있고
+        display CSS 속성만 변경된다.
+
+        즉,
+        조건이 false여도 요소 자체는 렌더링된 상태이다.
+
+        자주 보였다/숨겨졌다 하는 경우에 적합하다.
+        -->
+        <div class="box">
+            <h3>1. v-show</h3>
+
+            <label>
+                예금액 :
+                <input type="text" v-model.number="amountShow">
+            </label>
+
+            <img
+                v-show="amountShow < 0"
+                src="https://contactsvc.bmaster.kro.kr/img/error.png"
+                title="마이너스는 허용하지 않습니다."
+                alt="오류"
+                class="error-img"
+            >
+
+            <div class="result">
+                입력값 : {{ amountShow }}
+            </div>
+
+            <p>
+                 -100 입력 시 아이콘이 보이고, 100 입력 시 아이콘이 숨겨지는지 확인한다.
+            </p>
+        </div>
+
+
+        <!--
+        2. v-if
+
+        v-if는 조건이 참일 때만 요소를 렌더링한다.
+        조건이 거짓이면 DOM에서 제거된다.
+
+        즉,
+        v-show와 달리 요소를 단순히 숨기는 것이 아니라
+        생성 / 제거 방식으로 동작한다.
+
+        초기 조건이 false이면 처음부터 렌더링되지 않는다.
+
+        조건 변경이 자주 일어나지 않는 경우에 적합하다.
+        -->
+        <div class="box">
+            <h3>2. v-if</h3>
+
+            <label>
+                예금액 :
+                <input type="text" v-model.number="amountIf">
+            </label>
+
+            <img
+                v-if="amountIf < 0"
+                src="https://contactsvc.bmaster.kro.kr/img/error.png"
+                title="마이너스는 허용하지 않습니다."
+                alt="오류"
+                class="error-img"
+            >
+
+            <div class="result">
+                입력값 : {{ amountIf }}
+            </div>
+
+            <p>
+               -100 입력 시 아이콘이 생성되고, 100 입력 시 DOM에서 제거되는지 확인한다.
+            </p>
+        </div>
+
+
+        <!--
+        3. v-if / v-else-if / v-else
+
+        여러 조건을 순서대로 검사하여
+        하나의 결과만 렌더링할 수 있다.
+
+        주의:
+        v-else-if와 v-else는 반드시 바로 앞의
+        v-if 또는 v-else-if 요소 다음에 연속해서 작성해야 한다.
+        -->
+        <div class="box">
+            <h3>3. v-if / v-else-if / v-else</h3>
+
+            <label>
+                잔고 :
+                <input type="text" v-model.number="balance">
+            </label>
+
+            <div class="result">
+                회원님의 등급 :
+                <span v-if="balance > 1000000">Gold</span>
+                <span v-else-if="balance >= 500000">Silver</span>
+                <span v-else-if="balance >= 200000">Bronze</span>
+                <span v-else>Basic</span>
+            </div>
+
+            <p>
+               
+                100000, 300000, 700000, 1500000을 각각 입력해서
+                Basic → Bronze → Silver → Gold 순서로 바뀌는지 확인한다.
+            </p>
+        </div>
+
+
+        <!--
+        4. v-show 와 v-if 비교 정리
+
+        v-show
+        - 요소를 항상 렌더링해 둔 뒤 display만 토글
+        - DOM에 계속 남아 있음
+
+        v-if
+        - 조건에 따라 요소를 생성/제거
+        - 조건이 false이면 DOM에서 사라짐
+
+        정리
+        - 자주 토글되면 v-show
+        - 조건 변경이 드물면 v-if
+        -->
+        <div class="box">
+            <h3>4. v-show 와 v-if 비교</h3>
+
+            <p>공통 조건: 값이 0보다 작으면 경고 표시</p>
+
+            <div class="result">
+                v-show 방식:
+                <span v-show="compareValue < 0">경고 표시</span>
+            </div>
+
+            <div class="result">
+                v-if 방식:
+                <span v-if="compareValue < 0">경고 표시</span>
+            </div>
+
+            <label>
+                비교용 값 :
+                <input type="text" v-model.number="compareValue">
+            </label>
+
+            <p>
+                개발자도구로 확인하면
+                v-show는 요소가 DOM에 남아 있고,
+                v-if는 조건이 거짓일 때 요소가 제거되는 것을 볼 수 있다.
+            </p>
+        </div>
+
+
+        <!--
+        5. 참고 개념: template + v-if
+
+        여러 요소를 하나의 조건으로 함께 제어하려면
+        <template v-if>를 사용할 수 있다.
+
+        template 태그 자체는 최종 DOM에 렌더링되지 않고,
+        내부 요소들만 조건에 따라 렌더링된다.
+        -->
+        <div class="box">
+            <h3>5. template + v-if</h3>
+
+            <label>
+                상세 정보 보기 :
+                <input type="checkbox" v-model="showDetail">
+            </label>
+
+            <template v-if="showDetail">
+                <div class="result">이름 : 홍길동</div>
+                <div class="result">등급 : VIP</div>
+                <div class="result">상태 : 정상</div>
+            </template>
+
+            <p>
+                체크 시 여러 요소가 함께 나타나고,
+                체크 해제 시 함께 사라지는지 확인한다.
+            </p>
+        </div>
+
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <script>
+        const app = Vue.createApp({
+            name: 'App',
+
+            data() {
+                return {
+                    amountShow: 0,
+                    amountIf: 0,
+                    balance: 0,
+                    compareValue: 0,
+                    showDetail: false
+                }
+            }
+        })
+
+        app.mount('#app')
+    </script>
+
+</body>
+
+</html>

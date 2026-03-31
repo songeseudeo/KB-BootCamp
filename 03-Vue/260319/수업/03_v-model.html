@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Vue3 v-model 디렉티브 실습</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            line-height: 1.8;
+        }
+
+        .box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<!--
+==================================================
+v-model 디렉티브
+
+v-model은 폼 입력 요소와 Vue 상태를 양방향으로 바인딩하는 디렉티브이다.
+
+즉
+
+데이터 변경 → 화면(UI) 변경
+UI 입력 변경 → 데이터 변경
+
+
+디렉티브    특징
+v-bind      단방향 바인딩
+v-model     양방향 바인딩
+
+공식문서
+https://vuejs.org/guide/essentials/forms.html
+==================================================
+-->
+
+    <div id="app">
+
+        <h1>Vue3 v-model 실습</h1>
+
+        <!--
+        1. 기본 사용
+
+        입력창과 Vue 데이터를 연결한다.
+
+        사용자가 입력하면
+        데이터가 즉시 변경된다.
+        -->
+
+        <div class="box">
+
+            <h3>1. 기본 v-model</h3>
+           <!-- input 값과 name 데이터를 양방향으로 연결 -->
+            <input type="text" v-model="name">
+
+            <p>입력한 값 : {{ name }}</p>
+
+        </div>
+
+
+        <!--
+        2. textarea 바인딩
+
+        textarea 입력도 동일하게 동작한다.
+        -->
+
+        <div class="box">
+
+            <h3>2. textarea 바인딩</h3>
+
+            <textarea v-model="message"></textarea>
+
+            <p>입력 내용 : {{ message }}</p>
+
+        </div>
+
+
+        <!--
+        3. select 바인딩
+
+        선택한 값이 데이터에 저장된다.
+
+        select는 v-model의 초기값과 일치하는 option을 제공하는 것이 좋다.
+        -->
+
+        <div class="box">
+
+            <h3>3. select 바인딩</h3>
+
+            <select v-model="category">
+
+                <option value="">상품 분류 선택</option>
+                <option value="C01">레저</option>
+                <option value="C02">가전</option>
+                <option value="C03">음식</option>
+                <option value="C04">도서</option>
+
+            </select>
+
+            <p>선택한 상품 분류 : {{ category }}</p>
+
+        </div>
+
+
+        <!--
+        4. checkbox 바인딩
+
+        checkbox 여러 개를 선택하면
+        배열에 값이 저장된다.
+
+        따라서 데이터 타입은 배열이어야 한다.
+        hobby : []
+        -->
+
+        <div class="box">
+
+            <h3>4. checkbox 바인딩</h3>
+
+            <label>
+                <input type="checkbox" value="운동" v-model="hobby">
+                운동
+            </label>
+
+            <label>
+                <input type="checkbox" value="독서" v-model="hobby">
+                독서
+            </label>
+
+            <label>
+                <input type="checkbox" value="음악" v-model="hobby">
+                음악
+            </label>
+
+            <label>
+                <input type="checkbox" value="여행" v-model="hobby">
+                여행
+            </label>
+
+            <p>선택한 취미 : {{ hobby.join(', ') }}</p>
+
+        </div>
+
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <script>
+
+  
+        const app = Vue.createApp({
+
+            data() {
+                return {
+                   //초기값은 UI가 기대하는 타입과 맞추는 것이 좋다. 
+                   // 예를 들어 체크박스 다중 선택은 [], 단일 select는 ''로 시작하는 것이 안전
+                    name: "",
+                    message: "",
+                    category: "",
+                    hobby: []
+
+                }
+            }
+
+        })
+
+        app.mount("#app")
+
+    </script>
+
+</body>
+
+</html>
+
