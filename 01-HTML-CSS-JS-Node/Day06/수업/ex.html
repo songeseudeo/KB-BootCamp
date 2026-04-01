@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>음식 주문 시스템</title>
+
+    <style>
+        body {
+            font-family: "맑은 고딕";
+            padding: 20px;
+        }
+
+        .box {
+            border: 1px solid #ccc;
+            padding: 20px;
+            width: 400px;
+        }
+
+        label {
+            display: block;
+            margin-top: 8px;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 8px 12px;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        #commentList {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+
+        #commentList li {
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>음식 주문 시스템</h1>
+
+    <div class="box">
+
+        <form id="orderForm">
+
+            좋아하는 음식을 선택하세요<br>
+
+            <label>
+                <input type="checkbox" name="food" value="라면" data-price="5000">
+                라면 (5000원)
+            </label>
+
+            <label>
+                <input type="checkbox" name="food" value="만두" data-price="4000">
+                만두 (4000원)
+            </label>
+
+            <label>
+                <input type="checkbox" name="food" value="불고기" data-price="8000">
+                불고기 (8000원)
+            </label>
+
+            <br>
+
+            수량 입력<br>
+            <input id="count" type="number" value="1" min="1">
+
+            <br>
+
+            <button type="button" id="orderBtn">주문하기</button>
+
+        </form>
+
+        <div id="result"></div>
+
+        <hr>
+
+        <h3>댓글</h3>
+        <input type="text" id="commentInput" placeholder="댓글을 입력하세요">
+        <button type="button" id="commentBtn">댓글 등록</button>
+
+        <ul id="commentList"></ul>
+
+    </div>
+
+    <script>
+        const orderBtn = document.getElementById("orderBtn")
+        const result = document.getElementById("result")
+        const countInput = document.getElementById("count")
+
+        const commentInput = document.getElementById("commentInput")
+        const commentBtn = document.getElementById("commentBtn")
+        const commentList = document.getElementById("commentList")
+
+        orderBtn.addEventListener("click", function () {
+
+            // 체크된 음식들만 선택해서 가져오기
+            // 선택된 음식이 하나도 없으면
+            // 경고창 출력 후 종료
+            // 수량 입력값을 숫자로 변환
+            // 수량이 0 이하이면
+            // 경고창 출력 후 종료
+            // 총 금액을 저장할 변수 total = 0
+            // 선택한 음식 이름들을 저장할 배열 names 생성
+            // 선택된 음식들을 하나씩 반복
+                // 음식 가격(data-price) 가져오기
+                // 총 금액 += 가격 × 수량
+                // 음식 이름을 names 배열에 추가
+            // 주문 결과 문자열 생성
+            // (음식 이름들, 수량, 총 금액)
+            // 결과 영역에 출력
+
+            const foods = document.querySelectorAll("input[name='food']:checked")
+
+            if (foods.length === 0) {
+                alert("음식을 선택하세요")
+                return
+            }
+
+            let count = Number(countInput.value)
+
+            if (count <= 0) {
+                alert("수량을 입력하세요")
+                return
+            }
+
+            let total = 0
+            let names = []
+
+            foods.forEach(function (food) {
+                let price = Number(food.dataset.price)
+                total += price * count
+                names.push(food.value)
+            })
+
+            result.textContent =
+                "주문 음식 : " + names.join(", ") +
+                " | 수량 : " + count +
+                " | 총 금액 : " + total + "원"
+        })
+
+        commentBtn.addEventListener("click", function () {
+
+            // 댓글 입력값 가져오기
+            // 입력값 앞뒤 공백 제거
+            // 댓글이 비어 있으면
+            // 경고창 출력 후 종료
+            // li 요소 생성
+            // li에 댓글 내용 넣기
+            // 댓글 목록(ul)에 li 추가
+            // 입력칸 비우기
+            // 댓글 입력칸에 다시 포커스 주기
+
+            let text = commentInput.value.trim()
+
+            if (text === "") {
+                alert("댓글을 입력하세요")
+                return
+            }
+
+            let li = document.createElement("li")
+            li.textContent = text
+
+            commentList.appendChild(li)
+
+            commentInput.value = ""
+            commentInput.focus()
+        })
+    </script>
+
+</body>
+
+</html>

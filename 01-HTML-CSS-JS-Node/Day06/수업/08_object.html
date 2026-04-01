@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> 객체(Object) 실습</title>
+</head>
+
+<body>
+
+<h1> 객체(Object) 실습</h1>
+<p>F12 → Console에서 결과 확인</p>
+
+<script>
+
+/*
+================================
+객체 (Object)
+================================
+
+객체는 관련된 데이터를
+하나로 묶은 자료형이다.
+
+객체는
+
+속성(property)
+메서드(method)
+
+로 구성된다.
+
+예
+
+사람 객체
+
+이름
+나이
+주소
+
+출처 (MDN)
+https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Working_with_objects
+*/
+
+
+/*
+================================
+1. 객체 생성 (Object Literal)
+================================
+
+객체는 중괄호 { } 로 만든다.
+
+문법
+
+let 객체 = {
+    속성: 값
+}
+*/
+
+let person = {
+    name: "홍길동",
+    age: 20,
+    city: "서울"
+};
+
+console.log(person);
+
+
+/*
+================================
+2. 객체 속성 접근
+================================
+
+방법 2가지
+
+1. 점 표기법 (dot notation)
+2. 대괄호 표기법 (bracket notation)
+
+출처
+https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Operators/Property_accessors
+*/
+
+console.log(person.name);
+console.log(person["age"]);
+
+
+/*
+================================
+3. 객체 속성 추가
+================================
+*/
+
+person.job = "개발자";
+
+console.log(person);
+
+
+/*
+================================
+4. 객체 속성 수정
+================================
+*/
+
+person.age = 25;
+
+console.log(person);
+
+
+/*
+================================
+5. 객체 속성 삭제
+================================
+*/
+
+delete person.city;
+
+console.log(person);
+
+
+/*
+================================
+6. 메서드 (Method)
+================================
+
+객체 안에 있는 함수
+
+문법
+
+객체 = {
+   메서드명: function(){}
+}
+*/
+
+let user = {
+
+    name: "제니",
+    age: 23,
+
+    greet: function(){
+        console.log("안녕하세요 " + this.name);
+    }
+
+};
+
+user.greet();
+
+
+/*
+================================
+7. this 키워드
+================================
+
+this : 객체 내부에서
+현재 객체 자신을 가리키는 키워드
+
+출처
+https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Operators/this
+*/
+
+let user2 = {
+
+    name: "리사",
+    age: 20,
+
+    introduce: function(){
+        console.log("이름:", this.name); //this → user2 객체
+        console.log("나이:", this.age);
+    }
+
+};
+
+user2.introduce();
+/*
+================================
+8. 객체 반복 (for...in)
+================================
+
+객체의 key를 반복한다.
+
+문법
+
+for (변수 in 객체){
+}
+*/
+
+for(let key in user){
+
+    console.log(key);
+    console.log(user[key]);
+
+}
+
+
+/*
+================================
+9. 객체 속성 확인
+================================
+
+in 연산자 사용
+*/
+
+console.log("name" in user);
+console.log("height" in user);
+
+
+
+
+
+/*
+================================
+정리
+================================
+
+객체(Object)
+→ 데이터 묶음
+
+속성(property)
+→ 객체 데이터
+
+메서드(method)
+→ 객체 내부 함수
+
+접근 방법
+→ 점 표기법
+→ 대괄호 표기법
+*/
+
+</script>
+
+</body>
+</html>

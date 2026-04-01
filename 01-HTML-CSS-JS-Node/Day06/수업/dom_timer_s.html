@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>05_dom_timer</title>
+
+    <style>
+        body {
+            font-family: "맑은 고딕";
+            padding: 20px;
+        }
+
+        .box {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 8px 12px;
+            margin-right: 10px;
+        }
+
+        #clock,
+        #count {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!--
+    =========================================================
+    타이머(Timer)
+
+    JavaScript는 일정 시간 뒤 코드를 실행하거나
+    일정 시간마다 코드를 반복 실행할 수 있다.
+
+    1. setTimeout()
+    → 일정 시간 뒤 1번 실행
+
+    MDN
+    https://developer.mozilla.org/en-US/docs/Web/API/Window/setTimeout
+
+    2. setInterval()
+    → 일정 시간마다 반복 실행
+
+    MDN
+    https://developer.mozilla.org/en-US/docs/Web/API/Window/setInterval
+    =========================================================
+    -->
+
+    <h1>DOM + 타이머 실습</h1>
+
+    <div class="box">
+        <h2>1. setTimeout()</h2>
+        <button id="btn1">3초 후 메시지 출력</button>
+    </div>
+
+    <div class="box">
+        <h2>2. setInterval()</h2>
+        <button id="btn2">1초마다 숫자 증가</button>
+        <button id="btn3">반복 중지</button>
+        <div id="count">0</div>
+    </div>
+
+    <div class="box">
+        <h2>3. 디지털 시계</h2>
+        <button id="btn4">시계 시작</button>
+        <button id="btn5">시계 중지</button>
+        <div id="clock">시계를 시작하세요.</div>
+    </div>
+
+    <script>
+
+        /*
+        =========================================================
+        setTimeout()
+        
+        형식
+        
+        setTimeout(function(){
+            실행코드
+        }, 시간)
+        
+        시간은 밀리초
+        1000 = 1초
+        =========================================================
+        */
+
+        document.getElementById("btn1").addEventListener("click", function () {
+
+            setTimeout(function () {
+
+                alert("3초 후 실행되었습니다.");
+
+            }, 3000);
+
+        });
+
+
+        /*
+        =========================================================
+        setInterval()
+        
+        일정 시간마다 반복 실행
+        
+        MDN
+        https://developer.mozilla.org/en-US/docs/Web/API/Window/setInterval
+        =========================================================
+        */
+
+        let num = 0;
+        let timer1 = null;
+
+        document.getElementById("btn2").addEventListener("click", function () {
+            console.log(timer1)
+            if (timer1 != null) {
+                return;
+            }
+
+            timer1 = setInterval(function () {
+
+                num++;
+                document.getElementById("count").textContent = num;
+
+            }, 1000);
+
+            // 반환 값
+            // 호출에 의해 생성된 인터벌 타이머를 고유하게 식별하는 양의 정수(일반적으로 1에서 2,147,483,647 사이의 값)입니다.
+
+            // 이 식별자는 흔히 "인터벌 ID"라고 하며, clearInterval()지정된 함수의 반복 실행을 중지하기 위해 전달할 수 있습니다.
+
+        });
+
+
+        /*
+        =========================================================
+        clearInterval()
+        
+        setInterval()로 만든 반복 실행을 중지
+        
+        MDN
+        https://developer.mozilla.org/en-US/docs/Web/API/Window/clearInterval
+        =========================================================
+        */
+
+        document.getElementById("btn3").addEventListener("click", function () {
+
+            clearInterval(timer1);
+            timer1 = null;
+
+        });
+
+
+        /*
+        =========================================================
+        DOM 응용 : 디지털 시계
+        =========================================================
+        */
+
+        let clockTimer = null;
+
+        document.getElementById("btn4").addEventListener("click", function () {
+
+            if (clockTimer != null) {
+                return;
+            }
+
+            clockTimer = setInterval(function () {
+
+                let now = new Date();
+
+                document.getElementById("clock").textContent =
+                    now.toLocaleDateString();   // 사용자의 운영체제/브라우저 Locale에 따른 날짜만 반환
+                    // now.toLocaleTimeString(); // 사용자의 운영체제/브라우저 Locale에 따른 시간만 반환
+                    now.toLocaleString();     // 사용자의 운영체제/브라우저 Locale에 따른 날짜 + 시간 반환
+                    // now.toString();           // 날짜 + 시간 + 타임존을 포함한 기본 문자열 형식
+            }, 1000);
+
+        });
+
+
+        document.getElementById("btn5").addEventListener("click", function () {
+
+            clearInterval(clockTimer);
+            clockTimer = null;
+
+        });
+
+
+        /*
+        =========================================================
+        정리
+        
+        setTimeout()
+        → 일정 시간 후 1번 실행
+        
+        setInterval()
+        → 일정 시간마다 반복 실행
+        
+        clearTimeout()
+        → setTimeout 취소
+        
+        clearInterval()
+        → 반복 실행 중지
+        =========================================================
+        */
+
+    </script>
+
+</body>
+
+</html>

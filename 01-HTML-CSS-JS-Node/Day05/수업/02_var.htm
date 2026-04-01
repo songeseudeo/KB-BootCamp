@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /*
+        ================================
+        변수 개념
+        ================================
+
+        변수(variable)
+
+        데이터를 저장하는 공간(메모리 공간)
+
+        변수 선언
+        → 저장 공간을 만든다
+
+        변수 할당
+        → 변수에 값을 넣는다
+
+        예
+
+        let age = 20
+
+        age  → 변수 이름
+        20   → 저장된 값
+        =    → 할당(대입) 연산자
+
+
+
+
+        */
+      //  https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Statements/var
+      //  https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Statements/const
+      // https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Statements/let
+      // 변수 (저장공간 ) 를 선언하고 , 값을 할당(대입 = )한다
+      // var는 변수를 블록을 고려하지 않고 현재 함수 (또는 전역 스코프) 어디에서나 접근할 수 있는 변수를 선언
+      // let 명령문은 블록 스코프의 범위를 가지는 지역 변수를 선언, 자신을 선언한 블록과 모든 하위 블록을 스스로의 스코프로가짐
+      // const는 변하지 않는 값을 저장하는 변수 == 상수
+
+      /*
+        ================================
+        var / let / const 비교
+        ================================
+
+                    재선언   재할당   스코프
+        ---------------------------------------
+        var          가능     가능     함수 스코프
+        let          불가능   가능     블록 스코프
+        const        불가능   불가능   블록 스코프
+        */
+      /*
+        ================================
+        스코프(scope)
+        ================================
+
+        스코프란
+
+        변수에 접근할 수 있는 범위를 의미한다.
+
+        1. 전역 스코프 (Global Scope)
+        → 어디서든 접근 가능
+
+        2. 함수 스코프 (Function Scope)
+        → 함수 안에서만 접근 가능
+
+        3. 블록 스코프 (Block Scope)
+        → { } 내부에서만 접근 가능
+
+        let / const 는 블록 스코프를 가진다.
+        */
+
+        var name = "제니";
+        var age = 10;
+
+        var name = '리사'; //재선언
+        age = 30; //재할당
+
+        let phone = '01077877792'
+        // let phone = '' -> 재선언이 불가능
+
+        phone = '10177877792' //재할당(대입)
+
+        // 상수 : 변하지 않는 변수
+        const PI = 3.14;
+        // const PI = '' -> 재선언 불가능
+        // PI = 3.14; //Uncaught TypeError: Assignment to constant variable.
+        console.log(PI);
+    </script>
+  </body>
+</html>

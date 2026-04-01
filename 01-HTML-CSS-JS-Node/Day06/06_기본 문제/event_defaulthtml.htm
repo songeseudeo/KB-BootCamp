@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        window.onload = function() {
+    // 1. 버튼(a 태그)을 선택합니다.
+    let button = document.getElementById('button');
+
+    // 2. 버튼을 클릭했을 때 실행할 함수를 연결합니다.
+    button.onclick = function(event) {
+        // 3. 버튼의 기본 동작(페이지 이동)을 막습니다.
+        event.preventDefault();
+
+        // 확인을 위해 알림창을 띄워볼까요?
+        alert('이동하지 못하게 막았습니다!');
+        };
+    };
+    </script>
+</head>
+<body>
+    <a id="button" href="https://www.naver.com">버튼</a>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        // callback 함수 -> 함수 호출시 매개변수로 함수를 전달하는 함수
+        function action(callback) {
+            callback();
+        }
+
+        function eat () {
+            alert('밥먹자');
+        }
+
+        function run() {
+            alert('달리자');
+        }
+        action(eat);
+        action(eat);
+        action(run);
+        action(run);
+
+        action(function() {
+            alert('잘 살아보자 ㅋㅋ');
+        });
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

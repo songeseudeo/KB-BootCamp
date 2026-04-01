@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        window.onload = function() {
+            let clock = document.getElementById('clock');
+
+            // setInterval() -> 언제 실행할지 ex) 1초 뒤에
+            // toString() -> 어떤 모양으로
+            setInterval(function() {
+                let now = new Date();
+                clock.innerHTML = now.toString();
+            }, 1000);
+        }
+    </script>
+</head>
+<body>
+    <h1 id="clock"></h1>
+</body>
+</html>

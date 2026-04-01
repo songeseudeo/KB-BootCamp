@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let data = new Date();
+        let month = data.getMonth() +1 ; //우리가 쓰는 1~12월로 맞추기 위해
+
+        if (3 <= month && month <= 5) {
+            alert("봄입니다.");
+        } else if (6 <= month && month <= 8) {
+            alert("여름입니다.");
+        } else if (9 <= month && month <= 11) {
+            alert("가을입니다.");
+        } else {
+            alert("겨울입니다.");
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>배열(Array) 실습</title>
+</head>
+
+<body>
+
+<h1> 배열(Array) 실습</h1>
+<p>F12 → Console에서 결과 확인</p>
+
+<script>
+
+/*
+================================
+배열 (Array)
+================================
+
+// 배열(Array)
+// 여러 개의 데이터를 하나의 변수에 저장하는 구조
+
+// ---------------------------------------
+// 배열 구조
+// ---------------------------------------
+
+// let arr = [10, 20, 30, 40];
+
+// index
+//   0       1       2       3
+// --- --- --- --- --- --- ---
+//  |10|---|20|---|30|---|40|
+// --- --- --- --- --- --- ---
+
+// 접근 방법
+// arr[0] -> 10
+// arr[1] -> 20
+// arr[2] -> 30
+// arr[3] -> 40
+
+
+배열은 순서(index)를 가진다.
+
+index는 0부터 시작한다.
+
+// JavaScript 배열은 여러 자료형 저장 가능
+
+let data = [10, "hello", true, {name:"kim"}];
+
+// index
+//   0          1          2           3
+// --- --- --- --- --- --- --- --- --- ---
+//  |10|---|"hello"|---|true|---|{name:"kim"}|
+// --- --- --- --- --- --- --- --- --- ---
+
+출처 (MDN)
+https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Array
+*/
+
+
+
+/*
+================================
+1. 배열 생성
+================================
+
+방법 1 (배열 리터럴)
+*/
+
+let fruits = ["apple", "banana", "orange"];
+
+console.log(fruits);
+
+
+/*
+방법 2 (Array 생성자)
+*/
+
+let numbers = new Array(10, 20, 30);
+
+console.log(numbers);
+
+
+
+/*
+================================
+2. 배열 요소 접근
+================================
+
+배열 요소는 index로 접근한다.
+*/
+
+console.log(fruits[0]);
+console.log(fruits[1]);
+console.log(fruits[2]);
+
+
+
+/*
+================================
+3. 배열 요소 수정
+================================
+*/
+
+fruits[1] = "grape";
+
+console.log(fruits);
+
+
+
+/*
+================================
+4. 배열 길이
+================================
+
+length 속성으로
+배열 크기를 확인할 수 있다.
+*/
+
+console.log("배열 길이:", fruits.length);
+
+
+
+/*
+================================
+5. 배열 반복 (for)
+================================
+*/
+
+for(let i = 0; i < fruits.length; i++){
+
+    console.log("for 반복:", fruits[i]);
+
+}
+
+
+
+/*
+================================
+6. 배열 반복 (for...of)
+================================
+
+배열 값을 하나씩 반복한다.
+*/
+
+for(let fruit of fruits){
+
+    console.log("for of:", fruit);
+
+}
+
+
+
+/*
+================================
+7. 배열 추가
+================================
+
+push()
+→ 배열 끝에 데이터 추가
+*/
+
+fruits.push("mango");
+
+console.log(fruits);
+
+
+
+/*
+================================
+8. 배열 삭제
+================================
+
+pop()
+→ 마지막 요소 삭제
+*/
+
+fruits.pop();
+
+console.log(fruits);
+
+
+
+/*
+================================
+9. 배열 앞쪽 추가 / 삭제
+================================
+
+unshift()
+→ 앞쪽 추가
+
+shift()
+→ 앞쪽 삭제
+*/
+
+fruits.unshift("melon");
+
+console.log(fruits);
+
+fruits.shift();
+
+console.log(fruits);
+
+
+
+/*
+================================
+10. 배열 검색
+================================
+
+indexOf()
+→ 값 위치 찾기
+*/
+
+let index = fruits.indexOf("orange");
+
+console.log("orange 위치:", index);
+
+
+
+/*
+================================
+11. 배열 합 예제
+================================
+*/
+
+let arr = [10, 20, 30, 40];
+
+let sum = 0;
+
+for(let n of arr){
+
+    sum += n; // 할당대입연산자 
+// https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Operators/Addition_assignment
+}
+
+console.log("배열 합:", sum);
+
+
+/*
+================================
+12. join() 예제
+================================
+
+join()
+→ 배열 요소를 하나의 문자열로 연결
+
+구분자를 넣을 수 있다.
+*/
+
+let animals = ["cat", "dog", "tiger"];
+
+// 기본 (콤마로 연결)
+let result1 = animals.join();
+
+console.log("join 기본:", result1);
+// 결과
+// cat,dog,tiger
+
+
+// 공백으로 연결
+let result2 = animals.join(" ");
+
+console.log("join 공백:", result2);
+// 결과
+// cat dog tiger
+
+
+// - 로 연결
+let result3 = animals.join("-");
+
+console.log("join - :", result3);
+// 결과
+// cat-dog-tiger
+
+
+
+
+
+</script>
+
+</body>
+</html>

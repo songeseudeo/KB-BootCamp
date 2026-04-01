@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // let date = new Date();
+        // let hours = date.getHours();
+
+        const now = new Date();
+        const hour = now.getHours();
+
+        if (hour < 5) {
+            alert('잠을 자렴...');
+        }
+        else if (5 <= hour && hour < 7) {
+            alert('준비');
+        }
+        else if (7 <= hour && hour < 9) {
+            alert('출근');
+        }
+        else if (9 <= hour && hour < 12) {
+            alert('빈둥 빈둥');
+        }
+        else if (12 <= hour && hour < 14) {
+            alert('식사');
+        }
+        else {
+            alert('여러가지 업무를 수행합니다.');
+        }
+    </script>
+</body>
+</html>

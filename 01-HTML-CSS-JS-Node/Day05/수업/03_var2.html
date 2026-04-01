@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        x = 100 // 전역변수
+        y = 100
+        sum = 1000
+
+        if(x == y){
+            total = 100; // 전역변수 
+            var sum = 200 // 전역변수
+            let x = 999 // 지역
+            let x2 = 8000
+
+            alert( 'total1 ' + total )
+            alert( 'sum1 ' + sum )
+            alert( 'x1 ' + x )
+            alert( 'y1 ' + y )
+            alert( 'x2 ' + x2 )
+
+        }
+        alert( 'total2 ' + total )
+        alert( 'sum2 ' + sum )
+        alert( 'x2 ' + x )
+        alert( 'y2 ' + y )
+        alert( 'x2 ' + x2 ) //Uncaught ReferenceError: x2 is not defined   지역블럭 안에있는 let 으로 선언된x2 를 쓰려고 하니 에러발생
+    </script>
+</body>
+</html>

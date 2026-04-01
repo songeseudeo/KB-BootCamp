@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>04_dom_attribute</title>
+
+    <style>
+        body {
+            font-family: "맑은 고딕", sans-serif;
+            padding: 20px;
+            line-height: 1.8;
+        }
+
+        .box {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+
+        button {
+            padding: 8px 12px;
+            margin-right: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        img {
+            margin-top: 20px;
+            display: block;
+        }
+
+        .product {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!--
+=========================================================
+DOM 속성(Attribute) 조작
+
+HTML 태그에는 다양한 속성이 존재한다.
+
+예
+<img src="cat.jpg" width="300">
+
+src   → 이미지 주소
+width → 이미지 크기
+
+자바스크립트에서는 이러한 속성을 변경할 수 있다.
+
+대표적인 방법
+1. 속성 직접 변경
+2. setAttribute()
+3. getAttribute()
+
+추가 개념
+4. 사용자 정의 속성 (data-*)
+5. dataset
+=========================================================
+-->
+
+    <h1>DOM 속성 변경 실습</h1>
+
+    <div class="box">
+        <h2>이미지 영역</h2>
+
+        <img id="photo" src="https://picsum.photos/300" width="300" height="200" alt="샘플 이미지">
+    </div>
+
+    <button id="btn1">이미지 변경</button>
+    <button id="btn2">이미지 크기 변경</button>
+    <button id="btn3">setAttribute 사용</button>
+    <button id="btn4">getAttribute 확인</button>
+
+    <div class="box">
+        <h2>사용자 정의 속성 예제</h2>
+
+        <div class="product" id="product1" data-id="101" data-price="5000">
+            상품 A
+        </div>
+
+        <button id="btn5">상품 정보 확인</button>
+        <button id="btn6">data-name 속성 추가</button>
+        <button id="btn7">data-name 읽기</button>
+    </div>
+
+    <div id="result">여기에 결과가 표시됩니다.</div>
+
+    <script>
+      
+        const img = document.getElementById("photo");
+        const product = document.getElementById("product1");
+
+        const btn1 = document.getElementById("btn1");
+        const btn2 = document.getElementById("btn2");
+        const btn3 = document.getElementById("btn3");
+        const btn4 = document.getElementById("btn4");
+        const btn5 = document.getElementById("btn5");
+        const btn6 = document.getElementById("btn6");
+        const btn7 = document.getElementById("btn7");
+
+        const result = document.getElementById("result");
+
+        /*
+        =========================================================
+        2. 속성 직접 변경
+        
+        element.src
+        element.width
+        element.height
+        
+        HTML 속성을 직접 수정할 수 있다.
+        =========================================================
+        */
+        btn1.addEventListener("click", function () {
+            img.src = "https://picsum.photos/300?random=2";
+            result.textContent = "img.src 속성을 직접 변경했습니다.";
+        });
+
+        /*
+        =========================================================
+        3. 이미지 크기 변경
+        
+        width, height도 DOM 속성으로 직접 변경 가능
+        =========================================================
+        */
+        btn2.addEventListener("click", function () {
+            img.width = 400;
+            img.height = 250;
+            result.textContent = "img.width, img.height 속성을 직접 변경했습니다.";
+        });
+
+        /*
+        =========================================================
+        4. setAttribute()
+        
+        HTML 속성을 설정하는 함수
+        
+        형식
+        setAttribute("속성이름", "값")
+        
+        → 기존 속성이 있으면 변경
+        → 없으면 새로 생성
+        =========================================================
+        */
+        btn3.addEventListener("click", function () {
+            img.setAttribute("src", "https://picsum.photos/300?random=3");
+            img.setAttribute("alt", "새로운 샘플 이미지");
+            result.textContent = 'setAttribute("src", "...")로 속성을 변경했습니다.';
+        });
+
+        /*
+        =========================================================
+        5. getAttribute()
+        
+        HTML 속성 값을 가져오는 함수
+        
+        형식
+        getAttribute("속성이름")
+        =========================================================
+        */
+        btn4.addEventListener("click", function () {
+            const srcValue = img.getAttribute("src");
+            alert("현재 이미지 주소: " + srcValue);
+            result.textContent = "getAttribute('src')로 현재 src 값을 읽었습니다.";
+        });
+
+        /*
+        =========================================================
+        사용자 정의 속성 (data-* 속성)
+        
+        HTML에서는 개발자가 직접 속성을 만들 수 있다.
+        
+        형식
+        data-이름
+        
+        예
+        data-id
+        data-price
+        data-user
+        
+        주로 데이터를 저장할 때 사용한다.
+        =========================================================
+        */
+
+        /*
+        =========================================================
+        6. dataset
+        
+        data-* 속성에 접근하기 위한 DOM 속성
+        
+        HTML
+        data-id="101"
+        
+        JS
+        element.dataset.id
+        =========================================================
+        */
+        btn5.addEventListener("click", function () {
+            const id = product.dataset.id;
+            const price = product.dataset.price;
+
+            alert("상품ID: " + id + "\n가격: " + price);
+            result.textContent = "dataset.id, dataset.price로 data-* 속성 값을 읽었습니다.";
+        });
+
+        /*
+        =========================================================
+        7. 사용자 정의 속성 만들기
+        
+        HTML에 없는 속성도
+        자바스크립트로 직접 만들 수 있다.
+        
+        setAttribute()
+        → 속성 생성 또는 변경
+        =========================================================
+        */
+        btn6.addEventListener("click", function () {
+            product.setAttribute("data-name", "노트북");
+
+            /*
+            실행 후 HTML 예시
+        
+            <div
+                data-id="101"
+                data-price="5000"
+                data-name="노트북">
+            */
+
+            alert("data-name 속성이 추가되었습니다.");
+            result.textContent = 'setAttribute("data-name", "노트북")으로 사용자 정의 속성을 추가했습니다.';
+        });
+
+        /*
+        =========================================================
+        8. 속성 값 읽기
+        
+        getAttribute("data-name")
+        또는
+        dataset.name
+        
+        둘 다 가능
+        =========================================================
+        */
+        btn7.addEventListener("click", function () {
+            const nameValue1 = product.getAttribute("data-name");
+            const nameValue2 = product.dataset.name;
+
+            alert(
+                "getAttribute('data-name'): " + nameValue1 + "\n" +
+                "dataset.name: " + nameValue2
+            );
+
+            result.textContent = "data-name 속성을 getAttribute와 dataset으로 읽었습니다.";
+        });
+
+        /*
+        =========================================================
+        dataset 동작 원리
+        
+        HTML
+        data-user-id="10"
+        
+        JS
+        dataset.userId
+        
+        즉
+        1. data- 제거
+        2. 하이픈(-) 뒤 단어를 대문자로 변경
+        
+        예
+        data-user-name  → dataset.userName
+        data-item-code  → dataset.itemCode
+        =========================================================
+        */
+
+        /*
+        =========================================================
+        정리
+        
+        DOM 속성 변경 방법
+        
+        1. 직접 변경
+        element.src
+        element.width
+        
+        2. setAttribute()
+        속성 설정
+        
+        3. getAttribute()
+        속성 값 확인
+        
+        사용자 정의 속성
+        data-이름
+        
+        접근 방법
+        getAttribute("data-name")
+        또는
+        dataset.name
+        =========================================================
+        */
+    </script>
+
+</body>
+
+</html>

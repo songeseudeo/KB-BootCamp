@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>02_dom_select</title>
+
+    <style>
+        body {
+            font-family: "맑은 고딕", sans-serif;
+            padding: 20px;
+            line-height: 1.8;
+        }
+
+        .box {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 10px;
+        }
+
+        .item {
+            padding: 10px;
+            margin: 5px 0;
+            background: #eee;
+            border-radius: 8px;
+        }
+
+        button {
+            padding: 8px 12px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 15px;
+            padding: 12px;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!--
+    =========================================================
+    [문서 객체 선택 (DOM Selection)]
+    ---------------------------------------------------------
+    DOM을 조작하려면
+    먼저 HTML 요소를 선택해야 한다.
+
+    대표적인 선택 방법
+    1. getElementById()
+    2. querySelector()
+    3. querySelectorAll()
+
+    MDN 참고
+    - getElementById:
+      https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById
+    - querySelector:
+      https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector
+    - querySelectorAll:
+      https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll
+    =========================================================
+    -->
+
+    <h1 id="title">DOM 선택 실습</h1>
+
+    <div class="box">
+        <h2>실습 요소</h2>
+
+        <div class="item">첫번째 박스</div>
+        <div class="item">두번째 박스</div>
+        <div class="item">세번째 박스</div>
+    </div>
+
+    <br>
+
+    <button id="btn1">getElementById()</button>
+    <button id="btn2">querySelector()</button>
+    <button id="btn3">querySelectorAll()</button>
+
+    <div id="result">여기에 선택 결과가 표시됩니다.</div>
+
+    <script>
+   
+        const title = document.getElementById("title");
+        const btn1 = document.getElementById("btn1");
+        const btn2 = document.getElementById("btn2");
+        const btn3 = document.getElementById("btn3");
+        const result = document.getElementById("result");
+
+        /*
+        =========================================================
+        1. getElementById()
+        ---------------------------------------------------------
+        특징
+        - id로 요소 1개 선택
+        - document에서 사용
+        - id는 문서 내에서 고유해야 한다
+
+        MDN 참고
+        - getElementById:
+          https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById
+        =========================================================
+        */
+        btn1.addEventListener("click", function () {
+            title.style.color = "red";
+            result.textContent = 'getElementById("title")로 h1 요소 1개를 선택했습니다.';
+        });
+
+        /*
+        =========================================================
+        2. querySelector()
+        ---------------------------------------------------------
+        특징
+        - CSS 선택자 방식 사용
+        - 조건에 맞는 첫 번째 요소만 선택
+
+        예)
+        ".item"   -> class가 item인 첫 번째 요소
+        "#title"  -> id가 title인 요소
+        "div"     -> 첫 번째 div 요소
+
+        MDN 참고
+        - querySelector:
+          https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector
+        =========================================================
+
+        */ 
+       /*
+        =========================================================
+        CSS 속성명 vs JS 속성명
+        
+        CSS
+        background-color
+        font-size
+        
+        JS
+        backgroundColor
+        fontSize
+        
+        즉
+        
+        - 하이픈(-) 제거
+        - 뒤 단어 대문자
+        =========================================================
+        */
+        btn2.addEventListener("click", function () {
+            const item = document.querySelector(".item");
+            item.style.background = "yellow";
+            result.textContent = 'querySelector(".item")으로 .item 중 첫 번째 요소 1개를 선택했습니다.';
+        });
+
+        /*
+        =========================================================
+        3. querySelectorAll()
+        ---------------------------------------------------------
+        특징
+        - CSS 선택자 방식 사용
+        - 조건에 맞는 모든 요소 선택
+        - NodeList(노드 목록) 형태로 반환
+
+        여러 요소를 처리할 때는
+        반복문(forEach 등)을 사용한다.
+
+        MDN 참고
+        - querySelectorAll:
+          https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll
+        - NodeList:
+          https://developer.mozilla.org/en-US/docs/Web/API/NodeList
+        =========================================================
+        */
+        btn3.addEventListener("click", function () {
+            const items = document.querySelectorAll(".item");
+            console.log(items)
+           
+            /*
+            ========================================
+            방법 1 : 일반 for문 사용
+            ========================================
+            
+            구조
+            
+            for(초기값; 조건; 증가){
+            
+                실행 코드
+            
+            }
+            */
+
+            for (let i = 0; i < items.length; i++) {
+
+                /*
+                items.length
+                → 요소 개수
+            
+                i = 0  → 첫번째 요소
+                i = 1  → 두번째 요소
+                i = 2  → 세번째 요소
+                */
+
+                items[i].style.background = "lightblue"
+                items[i].style.color = "darkblue"
+                items[i].style.fontWeight = "bold"
+
+            }
+            /*
+              ========================================
+            방법 2 : forEach()
+            ========================================
+            
+
+            → 여러 요소를 하나씩 자동 반복
+            */
+            items.forEach(function (box) {
+
+                /*
+                box는 현재 처리 중인 요소를 의미한다.
+    
+                첫번째 반복 → 첫번째 div
+                두번째 반복 → 두번째 div
+                세번째 반복 → 세번째 div
+                */
+
+                box.style.background = "lightblue"
+                box.style.color = "darkblue"
+                box.style.fontWeight = "bold"
+
+            })
+        
+
+            result.textContent = 'querySelectorAll(".item")으로 .item 요소 전체를 선택했습니다.';
+        });
+
+
+
+        /*
+        =========================================================
+        [정리]
+        ---------------------------------------------------------
+        getElementById()
+        → id로 요소 1개 선택
+
+        querySelector()
+        → CSS 선택자 사용
+        → 첫 번째 요소 1개 선택
+
+        querySelectorAll()
+        → CSS 선택자 사용
+        → 여러 요소 선택
+        → NodeList 반환
+        → 반복문으로 처리 가능
+        =========================================================
+        */
+    </script>
+
+</body>
+</html>

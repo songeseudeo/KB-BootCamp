@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>반응형 웹 기초 실습</title>
+
+<!--
+================================
+Responsive Web (반응형 웹)
+================================
+
+반응형 웹이란
+
+사용자의 화면 크기나 장치 환경에 따라
+웹 페이지의 레이아웃과 스타일이 자동으로 변경되는 웹 설계 방식이다.
+
+예
+- 데스크톱
+- 태블릿
+- 스마트폰
+
+같은 웹사이트라도
+화면 크기에 맞게 레이아웃이 변경된다.
+
+참고
+MDN Web Docs
+Responsive design
+https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Responsive_Design
+-->
+
+
+
+<!--
+================================
+Viewport 설정
+================================
+https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/meta/name/viewport
+viewport
+
+모바일 브라우저에서
+웹페이지가 표시되는 화면 영역을 의미한다.
+
+모바일 브라우저는 기본적으로
+웹페이지를 축소해서 보여주기 때문에
+viewport 설정이 필요하다.
+
+대표 설정
+
+width=device-width
+→ 페이지 너비를 기기 화면 너비에 맞춤
+
+initial-scale=1
+→ 초기 확대 비율을 100%로 설정
+
+maximum-scale=1
+→ 최대 확대 비율 제한
+
+user-scalable=no
+→ 사용자가 화면 확대/축소를 하지 못하도록 설정
+
+예시
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+-->
+
+
+
+<!--
+================================
+Media Query (미디어 쿼리)
+================================
+
+Media Query는
+사용자의 장치 환경(화면 크기, 방향, 해상도 등)에 따라
+다른 CSS 스타일을 적용할 수 있게 하는 기능이다.
+
+주로 반응형 웹 디자인에서 사용된다.
+
+예
+- 화면 크기(width)
+- 화면 높이(height)
+- 화면 방향(orientation)
+- 해상도(resolution)
+
+참고
+MDN Web Docs
+https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries
+-->
+
+
+
+<!--
+================================
+Media Query 기본 문법
+================================
+
+@media 미디어타입 and (조건) {
+    적용할 CSS
+}
+
+조건이 참(true)일 때만
+CSS 스타일이 적용된다.
+-->
+
+
+
+<!--
+================================
+Media Type (미디어 타입)
+================================
+
+CSS를 적용할 장치의 종류를 지정한다.
+
+screen
+→ 모니터, 스마트폰, 태블릿 등 화면 장치
+
+print
+→ 인쇄할 때 적용
+
+speech
+→ 음성 낭독 장치
+
+현재는 대부분 screen을 사용한다.
+-->
+
+
+
+<!--
+================================
+Media Feature (미디어 특징)
+================================
+
+장치의 특정 상태나 속성을 기준으로
+CSS를 적용한다.
+
+대표적인 예
+
+width
+→ 화면 너비
+
+height
+→ 화면 높이
+
+orientation
+→ 화면 방향
+
+resolution
+→ 화면 해상도
+-->
+
+
+
+<!--
+================================
+orientation (화면 방향)
+================================
+
+portrait
+→ 세로 방향
+→ height > width
+
+landscape
+→ 가로 방향
+→ width > height
+-->
+
+
+
+<!--
+================================
+Media Query 예시
+================================
+
+@media screen and (orientation: portrait) {
+    body {
+        background: red;
+    }
+}
+
+→ 화면이 세로 방향일 때만
+CSS 스타일이 적용된다.
+-->
+
+
+
+<!--
+================================
+반응형 디자인에서 자주 사용하는 Media Query
+================================
+
+모바일 화면 스타일 적용 예
+
+@media (max-width: 768px) {
+    body {
+        background: blue;
+    }
+}
+
+→ 화면 너비가 768px 이하일 때
+모바일 스타일 적용
+-->
+
+<style>
+
+
+/* 가로 사이즈에 따라 테스트 */
+/* 기본 화면 (데스크톱) */
+
+body{
+    background:blue;
+    color:white;
+    text-align:center;
+}
+
+
+/* 태블릿 */
+
+@media screen and (min-width:768px) and (max-width:959px){
+
+    body{
+        background:green;
+    }
+
+}
+
+
+/* 스마트폰 */
+
+@media screen and (max-width:767px){
+
+    body{
+        background:red;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>반응형 웹 실습</h1>
+
+<p>화면 크기를 줄여보세요.</p>
+
+<p>
+데스크톱 → 파랑<br>
+태블릿 → 초록<br>
+스마트폰 → 빨강
+</p>
+
+</body>
+</html>

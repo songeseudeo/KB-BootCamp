@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>event_all_in_one</title>
+
+    <style>
+        body {
+            font-family: "맑은 고딕";
+            padding: 20px;
+            line-height: 1.8;
+        }
+
+        .box {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 8px 12px;
+            margin-right: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .code-title {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+            <!--
+        =========================================================
+        이벤트(Event)
+
+        이벤트란
+        웹 페이지에서 발생하는 동작 또는 사건을 의미한다.
+
+        예
+        - 버튼 클릭
+        - 마우스 이동
+        - 키보드 입력
+        - 페이지 로드
+
+        즉,
+        어떤 일이 발생했을 때 자바스크립트 코드가 실행된다.
+        https://developer.mozilla.org/en-US/docs/Web/API/Element/click_event
+        =========================================================
+        -->
+
+    <script>
+        /*
+        =========================================================
+        이벤트 연결용 함수
+        =========================================================
+        */
+
+        function inlineFunctionClick() {
+            alert("함수 호출 방식으로 이벤트가 실행되었습니다.");
+        }
+
+        window.onload = function () {
+
+            /*
+            =========================================================
+            1. 고전 이벤트 모델 = 이벤트 속성 방식
+            element.onclick = function () {}
+        
+            특징
+            - JavaScript 안에서 연결
+            - 한 요소에 같은 이벤트 1개만 연결 가능
+            - 나중에 넣은 값이 이전 값을 덮어쓴다.
+        
+            MDN 참고
+            - click event:
+                https://developer.mozilla.org/en-US/docs/Web/API/Element/click_event   
+             =========================================================
+            */
+            let btnTraditional = document.getElementById("btnTraditional");
+
+            btnTraditional.onclick = function () {
+                alert("고전 이벤트 모델로 실행되었습니다.");
+            };
+
+
+            /*
+            =========================================================
+            2. 표준 이벤트 모델
+                addEventListener()
+        
+                특징
+                - 현재 가장 권장되는 방식
+                - 같은 요소에 같은 이벤트를 여러 개 연결 가능
+                - EventTarget이 지원하는 표준 방식
+        
+                MDN 참고
+                - addEventListener:
+                    https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
+        
+            =========================================================
+            */
+            let btnStandard = document.getElementById("btnStandard");
+
+            btnStandard.addEventListener("click", function () {
+                alert("표준 이벤트 모델로 실행되었습니다.");
+            });
+
+
+            /*
+              =====================================================
+              3. 이벤트 객체
+              -----------------------------------------------------
+              이벤트가 발생하면
+              이벤트 관련 정보가 담긴 객체가 전달된다.
+      
+              자주 보는 속성
+              - event.type
+              - event.target
+              - event.currentTarget
+      
+              MDN 참고
+              - Event:
+                  https://developer.mozilla.org/en-US/docs/Web/API/Event
+              - Event.target:
+                  https://developer.mozilla.org/en-US/docs/Web/API/Event/target
+              - Event.currentTarget:
+                  https://developer.mozilla.org/en-US/docs/Web/API/Event/currentTarget
+              =====================================================
+              */
+            let btnEventObject = document.getElementById("btnEventObject");
+
+            btnEventObject.addEventListener("click", function (event) {
+                console.log(event);
+                alert(
+                    "이벤트 타입: " + event.type + "\n" +
+                    "이벤트가 발생한 요소(target): " + event.target.tagName + "\n" +
+                    "이벤트가 연결된 요소(currentTarget): " + event.currentTarget.tagName
+                );
+            });
+
+
+    /*
+            =====================================================
+            4. 기본 이벤트 제거
+            -----------------------------------------------------
+            a 태그는 원래 href 주소로 이동하는 기본 기능이 있다.
+            preventDefault()를 사용하면 기본 동작을 막을 수 있다.
+            event.defaultPrevented로 실제 취소 여부를 확인가능
+            MDN 참고
+            - preventDefault:
+                https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault
+            - defaultPrevented:
+                https://developer.mozilla.org/ko/docs/Web/API/Event/defaultPrevented
+            =====================================================
+            */
+            let link = document.getElementById("link");
+
+            link.addEventListener("click", function (event) {
+                event.preventDefault();
+                alert("기본 이동이 취소되었습니다." + event.defaultPrevented);
+            });
+
+
+            /*
+            =========================================================
+            5. addEventListener 장점 
+            같은 요소에 이벤트를 여러 개 연결 가능
+            =========================================================
+            */
+            let btnMulti = document.getElementById("btnMulti");
+
+            btnMulti.addEventListener("click", function () {
+                console.log("첫 번째 이벤트");
+            });
+
+            btnMulti.addEventListener("click", function () {
+                console.log("두 번째 이벤트");
+                alert("콘솔에서 두 개의 이벤트 실행 결과를 확인하세요.");
+            });
+
+        };
+    </script>
+</head>
+
+<body>
+
+
+    <h1>이벤트 전체 정리</h1>
+
+    <div class="box">
+        <h2>1. 이벤트 기본 개념</h2>
+        <p>
+            버튼을 클릭하면 이벤트가 발생하고,
+            그 순간 자바스크립트 코드가 실행됩니다.
+        </p>
+        <button onclick="alert('인라인 이벤트가 실행되었습니다.')">인라인 이벤트 버튼</button>
+    </div>
+
+    <div class="box">
+        <h2>2. 이벤트 연결 방법</h2>
+
+        <div class="code-title">1) 인라인 이벤트</div>
+        <button onclick="alert('인라인 방식')">버튼1</button>
+
+        <div class="code-title">2) script 함수 호출 방식</div>
+        <button onclick="inlineFunctionClick()">버튼2</button>
+
+        <div class="code-title">3) 고전 이벤트 모델</div>
+        <button id="btnTraditional">버튼3</button>
+
+        <div class="code-title">4) 표준 이벤트 모델</div>
+        <button id="btnStandard">버튼4</button>
+    </div>
+
+    <div class="box">
+        <h2>3. 이벤트 객체</h2>
+        <button id="btnEventObject">이벤트 객체 확인</button>
+    </div>
+
+    <div class="box">
+        <h2>4. 기본 이벤트 제거</h2>
+        <a href="https://www.naver.com" id="link">네이버로 이동</a>
+    </div>
+
+    <div class="box">
+        <h2>5. 표준 이벤트 모델의 장점</h2>
+        <p>
+            addEventListener()는 같은 요소에 이벤트를 여러 개 연결할 수 있습니다.
+        </p>
+        <button id="btnMulti">이벤트 여러 개 실행</button>
+    </div>
+
+<!--
+=========================================================
+정리
+
+1. 이벤트
+   → 특정 동작이 발생했을 때 실행되는 코드
+
+2. 이벤트 연결 방법
+   - 인라인 이벤트
+   - 함수 호출 방식
+   - 고전 이벤트 모델
+   - 표준 이벤트 모델
+
+3. 실무에서 가장 많이 사용하는 방식
+   addEventListener()
+
+4. 이벤트 객체
+   → 이벤트 관련 정보 저장
+
+5. 기본 이벤트 제거
+   event.preventDefault()
+=========================================================
+-->
+
+</body>
+
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 960px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        #menu {
+            width: 260px;
+            float: left;
+            background: skyblue;
+        }
+        #section {
+            width: 700px;
+            float: right;
+            background: lightgray;
+            padding: 20px;
+        }
+
+        li {
+            list-style: none;
+            padding:  10px;
+            border-bottom: 1px solid gray;
+        }
+
+        @media screen and (max-width: 767px) {
+            body {
+                width: auto;
+            }
+            #manu {
+                width: auto;
+                float: none;
+            }
+            #section {
+                width: auto;
+                float: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<!-- div>nav.menu -->
+ <!--  -->
+    <div id="menu">
+        <ul>
+            <li>메뉴 A</li>
+            <li>메뉴 B</li>
+            <li>메뉴 C</li>
+        </ul>
+    </div>
+
+    <div id="section">
+        <h1>콘텐츠 영역</h1>
+        <p>
+            화면 크기를 줄여보세요.
+        </p>
+        <p>
+            데스크톱에서는 메뉴가 왼쪽에 있고
+            모바일에서는 메뉴가 위로 이동합니다.
+        </p>
+    </div>
+</body>
+</html>

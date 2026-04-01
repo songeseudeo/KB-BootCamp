@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+/* https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Cascading_variables/Using_custom_properties */
+:root{
+  --width:200px;
+}
+/* --width:200px      → 변수 생성
+var(--width)       → 그대로 사용
+calc(var(--width)/2) → 나눠서 사용 
+
+상황	                  결과
+같은 변수 여러 번 선언	  마지막 값 적용
+부모에서 선언	          자식에서 사용 가능
+자식에서 다시 선언	      자식 값이 우선
+*/
+.box1{
+  width:var(--width);
+  height:50px;
+  background:skyblue;
+  margin-bottom:10px;
+}
+
+.box2{
+  /* --width:300px; */
+  width:calc(var(--width) / 2);
+
+  height:50px;
+  background:orange;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="box1">200px</div>
+<div class="box2">100px</div>
+
+</body>
+</html>
