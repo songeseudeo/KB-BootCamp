@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Vue3 CSS 클래스 바인딩</title>
+
+    <!--
+    ====================================================
+    2. CSS 클래스 바인딩 (Class Binding)
+    ====================================================
+
+
+    사용 문법
+    v-bind:class
+
+    축약형
+    :class
+
+    :class는 다음과 같은 방식으로 사용할 수 있다.
+
+    1 문자열 방식
+    2 배열 방식
+    3 조건 방식
+    4 객체 방식
+
+    공식 문서
+    https://vuejs.org/guide/essentials/class-and-style
+    -->
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.8;
+            margin: 20px;
+        }
+
+        h1,
+        h2 {
+            margin-top: 28px;
+        }
+
+        .example-box {
+            border: 1px solid #ccc;
+            padding: 14px;
+            margin-top: 10px;
+            margin-bottom: 18px;
+        }
+
+        /* 색상 스타일 */
+        .buttonColor {
+            background-color: aqua;
+            color: black;
+        }
+
+        /* 레이아웃 스타일 */
+        .buttonLayout {
+            text-align: center;
+            width: 120px;
+        }
+
+        /* 정적 스타일 */
+        .staticBorder {
+            border: khaki dashed 1px;
+        }
+        /*  -------------------------------------------*/
+        .btnColor {
+            background-color: aqua;
+            color: black;
+        }
+
+        .btnAlign {
+            text-align: center;
+            width: 120px;
+        }
+
+        .btnBorder {
+            border: khaki dashed 1px;
+        }
+
+         /*  -------------------------------------------*/
+
+        .active {
+            background-color: royalblue;
+            color: white;
+        }
+
+        .disabled {
+            background-color: gray;
+            color: white;
+            opacity: 0.5;
+        }
+
+        .primary {
+            background-color: purple;
+            color: white;
+        }
+
+        .rounded {
+            border-radius: 20px;
+        }
+
+        button {
+            padding: 8px 14px;
+            margin-top: 8px;
+            cursor: pointer;
+        }
+
+        input[type="checkbox"] {
+            margin-top: 6px;
+        }
+
+        .guide {
+            color: #555;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <h1>2. CSS 클래스 바인딩</h1>
+    <!-- 클래스 바인딩은 객체/배열/문자열 모두 가능하고,
+    조건 처리할 때는 객체사용  -->
+    <div id="app">
+
+        <!-- ================================================= -->
+        <!-- 2-1 문자열 클래스 바인딩 -->
+        <!-- ================================================= -->
+
+        <h2>2-1 문자열 클래스 바인딩</h2>
+
+        <!--
+        정적 class와 동적 :class는 함께 사용할 수 있다.
+        정적 클래스는 항상 적용되고,
+        :class는 데이터 상태에 따라 추가/제거된다.
+
+
+        문자열로 CSS 클래스 이름을 전달하는 방식
+
+          class="staticBorder"
+           일반 HTML 정적 클래스 (항상 적용됨)
+
+           :class="myColor"
+           Vue 클래스 바인딩
+           myColor 값에 들어있는 클래스명이 동적으로 적용됨
+
+        -->
+
+        <div class="example-box">
+            <button class="staticBorder" :class="myColor">
+                테스트 버튼
+            </button>
+
+            <div class="guide">
+                myColor = "{{ myColor }}"
+            </div>
+        </div>
+
+
+
+        <!-- ================================================= -->
+        <!-- 2-2 배열 클래스 바인딩 -->
+        <!-- ================================================= -->
+
+        <h2>2-2 배열 클래스 바인딩</h2>
+
+        <!--
+        여러 클래스명을 배열로 묶어 적용할 수 있다.
+
+        :class="[class1, class2]"
+        -->
+
+        <div class="example-box">
+            <button class="staticBorder" :class="[arrMyColor, arrMyLayout]">
+                테스트 버튼
+            </button>
+
+            <div class="guide">
+                [ "{{ arrMyColor }}", "{{ arrMyLayout }}" ]
+            </div>
+        </div>
+
+
+
+        <!-- ================================================= -->
+        <!-- 2-3 조건부 클래스 바인딩 -->
+        <!-- ================================================= -->
+
+        <h2>2-3 조건부 클래스 바인딩</h2>
+
+        <!--
+        조건에 따라 클래스 적용
+
+        삼항 연산자 사용
+
+          :class 배열 방식
+           [condMyColor, isMyLayout ? myLayout : '']
+
+             1) condMyColor → 항상 적용
+             2) 삼항 연산자
+                isMyLayout가 true이면 condMyLayout 적용
+                false이면 '' (적용 안 됨)
+
+             즉, 체크박스를 선택하면 레이아웃 클래스 추가
+        -->
+
+        <div class="example-box">
+            <input type="checkbox" v-model="isMyLayout">
+            레이아웃 적용 여부
+            <br>
+
+            <button class="staticBorder" :class="[condMyColor, isMyLayout ? condMyLayout : '']">
+                버튼
+            </button>
+
+            <div class="guide">
+                isMyLayout 값이 true이면 buttonLayout 클래스가 적용된다.
+            </div>
+        </div>
+
+
+
+        <!-- ================================================= -->
+        <!-- 2-4 객체 클래스 바인딩 -->
+        <!-- ================================================= -->
+
+        <h2>2-4 객체 클래스 바인딩</h2>
+
+        <!--
+        객체의 속성명이 클래스 이름이 된다.
+
+        값이 true → 클래스 적용
+        값이 false → 클래스 미적용
+
+        ES6 축약 문법
+        :class="{ btnColor, btnAlign }"
+        =
+        :class="{ btnColor: btnColor, btnAlign: btnAlign }"
+
+        -->
+
+        <div class="example-box">
+            <input type="checkbox" v-model="btnColor"> 색상
+            <br>
+
+            <input type="checkbox" v-model="btnAlign"> 정렬, 크기
+            <br>
+
+            <input type="checkbox" v-model="btnBorder"> 테두리
+            <br>
+
+            <button :class="{btnColor, btnAlign, btnBorder}">
+                버튼
+            </button>
+
+            <div class="guide">
+                객체 속성명이 클래스 이름이며, 값이 true일 때만 적용된다.
+            </div>
+        </div>
+
+
+
+        <!-- ================================================= -->
+        <!-- 2-5 객체 전체 바인딩 -->
+        <!-- ================================================= -->
+
+        <h2>2-5 객체 전체 바인딩</h2>
+
+        <!--
+          :class에 객체 자체를 바인딩
+             형식: { 클래스명: Boolean }
+
+             btnStyle 객체 구조:
+             {
+               btnColor: true/false,
+               btnAlign: true/false,
+               btnBorder: true/false
+             }
+
+             값이 true인 속성의 클래스만 자동 적용됨
+
+             // 클래스 적용 여부를 하나의 객체로 관리
+        -->
+
+        <div class="example-box">
+            <input type="checkbox" v-model="btnStyle.btnColor"> 색상
+            <br>
+
+            <input type="checkbox" v-model="btnStyle.btnAlign"> 정렬, 크기
+            <br>
+
+            <input type="checkbox" v-model="btnStyle.btnBorder"> 테두리
+            <br>
+
+            <button :class="btnStyle">
+                버튼
+            </button>
+
+            <div class="guide">
+                btnStyle 객체 전체를 :class에 바인딩한다.
+            </div>
+        </div>
+
+
+
+        <!-- ================================================= -->
+        <!-- 2-6 상태 기반 버튼 -->
+        <!-- ================================================= -->
+
+        <h2>2-6 상태 기반 버튼</h2>
+
+        <!--
+        1. 활성화 여부에 따라 스타일 변경
+        2. 비활성화 시 클릭 불가
+
+        class 바인딩과 속성 바인딩을 함께 사용하는 경우가 많다.
+        -->
+
+        <div class="example-box">
+            <input type="checkbox" v-model="isActive"> 활성화
+            <br>
+
+            <input type="checkbox" v-model="isDisabled"> 비활성화
+            <br><br>
+
+            <button :disabled="isDisabled" :class="{ active: isActive, disabled: isDisabled }">
+                버튼
+            </button>
+
+            <div class="guide">
+                active는 스타일 적용, disabled는 스타일 + 실제 비활성화 속성 적용
+            </div>
+        </div>
+
+
+
+        <!-- ================================================= -->
+        <!-- 2-7  computed 클래스 -->
+        <!-- ================================================= -->
+
+        <h2>2-7  computed 클래스 </h2>
+
+        <!--
+        복잡한 클래스 바인딩은 computed로 분리하면
+        템플릿이 더 읽기 쉬워진다.
+        -->
+
+        <div class="example-box">
+            <input type="checkbox" v-model="isPrimary"> primary
+            <br>
+
+            <input type="checkbox" v-model="isRounded"> rounded
+            <br><br>
+
+            <button :class="buttonClasses">
+                버튼
+            </button>
+
+            <div class="guide">
+                computed가 객체를 반환하고, 그 객체를 :class에 연결한다.
+            </div>
+        </div>
+
+
+
+        <!-- ================================================= -->
+        <!--  배열 + 조건 혼합 -->
+        <!-- ================================================= -->
+
+        <h2>배열 + 조건 혼합</h2>
+
+        <!--
+        배열 방식과 조건식을 함께 사용할 수도 있다.
+        -->
+
+        <div class="example-box">
+            <input type="checkbox" v-model="useColor"> 색상
+            <br>
+
+            <input type="checkbox" v-model="useBorder"> 테두리
+            <br><br>
+
+            <button :class="[useColor ? 'buttonColor' : '', useBorder ? 'btnBorder' : '']">
+                버튼
+            </button>
+
+            <div class="guide">
+                조건식 결과에 따라 배열 안에 클래스명이 들어가거나 빈 문자열이 들어간다.
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <script src="https://unpkg.com/vue@3"></script>
+
+    <script>
+
+   
+
+        Vue.createApp({
+
+            data() {
+                return {
+
+                    /*
+                    ====================================================
+                    2-1 문자열 클래스 바인딩
+                    ====================================================
+                    */
+
+                    myColor: "buttonColor buttonLayout",
+
+
+                    /*
+                    ====================================================
+                    2-2 배열 클래스 바인딩
+                    ====================================================
+                    */
+
+                    arrMyColor: "buttonColor",
+                    arrMyLayout: "buttonLayout",
+
+
+                    /*
+                    ====================================================
+                    2-3 조건부 클래스 바인딩
+                    ====================================================
+                    */
+
+                    condMyColor: "buttonColor",
+                    condMyLayout: "buttonLayout",
+                    isMyLayout: false,
+
+
+                    /*
+                    ====================================================
+                    2-4 객체 클래스 바인딩
+                    ====================================================
+                    */
+
+                    btnColor: false,
+                    btnAlign: false,
+                    btnBorder: false,
+
+
+                    /*
+                    ====================================================
+                    2-5 객체 전체 바인딩
+                    ====================================================
+                    */
+
+                    btnStyle: {
+                        btnColor: false,
+                        btnAlign: false,
+                        btnBorder: false
+                    },
+
+
+                    /*
+                    ====================================================
+                    2-6  상태 기반 버튼
+                    ====================================================
+                    */
+
+                    isActive: false,
+                    isDisabled: false,
+
+
+                    /*
+                    ====================================================
+                    2-7  computed로 클래스 정리
+                    ====================================================
+                    */
+
+                    isPrimary: false,
+                    isRounded: false,
+
+
+                    /*
+                    ====================================================
+                    2-8  배열 + 조건 혼합
+                    ====================================================
+                    */
+
+                    useColor: false,
+                    useBorder: false
+                }
+            },
+
+            computed: {
+
+                /*
+                ====================================================
+                2-7 연습: computed로 클래스 정리
+                ====================================================
+
+                computed가 객체를 반환하면
+                :class에서 그대로 사용할 수 있다.
+
+                primary ← 클래스 이름
+                isPrimary ← 상태 변수
+
+                객체 축약 문법은 key와 변수명이 동일할 때만 사용 가능하다.
+                primary: isPrimary 처럼 이름이 다르면 축약할 수 없다.
+                */
+
+                buttonClasses() {
+                    return {
+                        primary: this.isPrimary,
+                        rounded: this.isRounded
+                    }
+                }
+            }
+
+        }).mount("#app")
+
+    </script>
+
+</body>
+
+</html>

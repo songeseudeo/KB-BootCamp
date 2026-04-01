@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <!--
+    ========================================================
+    기본 이벤트(Default Event)와 기본 동작 제어
+    ========================================================
+
+    공식 문서
+    https://vuejs.org/guide/essentials/event-handling.html#event-modifiers
+
+    브라우저에는 기본적으로 실행되는 이벤트가 존재한다.
+
+    대표적인 기본 이벤트
+
+    1. <a> 태그 클릭
+    → href 경로로 페이지 이동
+
+    2. 마우스 오른쪽 클릭
+    → 브라우저 컨텍스트 메뉴 출력
+
+    3. form submit
+    → 서버로 데이터 전송
+
+
+    이러한 기본 동작을 막고 싶을 때
+    event.preventDefault()를 사용한다.
+    -->
+
+    <h2>1. 기본 이벤트 확인</h2>
+
+    <!--
+    a 태그 클릭 시 기본적으로 페이지 이동이 발생한다.
+    -->
+    <a href="https://facebook.com">페이스북 이동</a>
+
+    <hr>
+
+
+    <!--
+    ========================================================
+    event.preventDefault()
+    ========================================================
+
+    브라우저 기본 동작을 차단하는 메서드
+
+    사용 예
+    - 링크 이동 차단
+    - form submit 차단
+    - 우클릭 메뉴 차단
+    -->
+
+    <h2>2. preventDefault() 사용</h2>
+
+    <a href="https://facebook.com" @click="confirmFB">
+        페이스북 이동 (확인 후 이동)
+    </a>
+
+    <hr>
+
+
+    <!--
+    ========================================================
+    contextmenu 이벤트
+    ========================================================
+
+    contextmenu 이벤트는 마우스 우클릭 시 발생한다.
+
+    preventDefault()를 사용하면
+    브라우저 컨텍스트 메뉴를 차단할 수 있다.
+    -->
+
+    <h2>3. 우클릭 메뉴 차단</h2>
+
+    <div @contextmenu="ctxStop" style="width:300px;height:120px;border:1px solid black;padding:10px">
+
+        이 영역에서 마우스 오른쪽 클릭 시
+        브라우저 기본 메뉴가 차단됩니다.
+
+    </div>
+
+    <hr>
+
+
+    <!--
+    ========================================================
+    Vue 이벤트 수식어 .prevent
+    ========================================================
+
+    Vue에서는 event.preventDefault() 대신
+    이벤트 수식어(event modifier)를 사용할 수 있다.
+
+    문법
+
+    @click.prevent="method"
+
+    Vue가 자동으로 preventDefault()를 수행한다.
+    -->
+
+    <h2>4. .prevent 수식어 사용</h2>
+
+    <div @contextmenu.prevent style="width:300px;height:120px;border:1px solid blue;padding:10px">
+
+        이 영역은 .prevent 수식어로
+        우클릭 메뉴가 차단됩니다.
+
+    </div>
+
+    </div>
+
+
+    <script src="https://unpkg.com/vue@3"></script>
+
+    <script>
+        Vue.createApp({
+
+            methods: {
+
+                /*
+                우클릭 기본 메뉴 차단
+                */
+                ctxStop(e) {
+                    e.preventDefault()
+                },
+
+                /*
+                링크 이동 전 확인
+                */
+                confirmFB(e) {
+
+                    if (!confirm("페이스북으로 이동할까요?")) {
+                        e.preventDefault()
+                    }
+
+                }
+
+            }
+
+        }).mount("#app")
+    </script>
+</body>
+
+</html>
+<div id="app">

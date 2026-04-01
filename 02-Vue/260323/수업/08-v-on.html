@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Vue3 이벤트 처리 기본</title>
+
+    <!--
+        ========================================================
+        Vue 이벤트 처리 
+        ========================================================
+
+        https://vuejs.org/guide/essentials/event-handling.html
+        -->
+
+</head>
+
+<body>
+
+    <div id="app">
+
+        <!--
+        ========================================================
+        1. 인라인 이벤트 처리
+        ========================================================
+
+        v-on 디렉티브를 사용하여 DOM 이벤트를 처리
+
+        기본 문법
+        v-on:[event]="expression"
+
+        예시
+        v-on:click="count++"
+
+        축약 문법
+        @click="count++"
+
+        인라인 이벤트는 간단한 로직을 처리할 때 사용한다.
+        -->
+
+        <h2>1. 인라인 이벤트 처리</h2>
+
+        금액 :
+        <input type="text" v-model.number="amount">
+
+        <br><br>
+
+        <button @click="balance += parseInt(amount)">입금</button>
+        <button @click="balance -= parseInt(amount)">출금</button>
+
+        <h3>계좌 잔고 : {{ balance }}</h3>
+
+        <hr>
+
+
+        <!--
+        ========================================================
+        2. 이벤트 핸들러 메서드
+        ========================================================
+
+        템플릿 내부에서 복잡한 로직을 처리하면 코드 가독성이 떨어진다.
+        이 경우 methods에 메서드를 정의하여 이벤트 처리 로직을 분리한다.
+
+        예시
+        <button @click="deposit">입금</button>
+
+        methods:{
+            deposit(){
+            console.log("입금 처리")
+            }
+        }
+
+        -->
+
+        <h2>2. 이벤트 핸들러 메서드</h2>
+
+        금액 :
+        <input type="text" v-model.number="amount2">
+
+        <br><br>
+
+        <button @click="deposit">입금</button>
+        <button @click="withdraw">출금</button>
+
+        <h3>계좌 잔고 : {{ balance2 }}</h3>
+
+        <hr>
+
+
+        <!--
+        ========================================================
+        3. 이벤트 객체(Event Object)
+        ========================================================
+
+        DOM 이벤트가 발생하면 이벤트 객체가 생성된다.
+
+        methods:{
+            changeName(e){
+            console.log(e.target.value)
+            }
+        }
+
+        주요 속성
+        e.target          : 실제 이벤트 발생 요소
+        e.currentTarget   : 이벤트 핸들러가 연결된 요소
+        e.type            : 이벤트 종류
+        e.eventPhase      : 이벤트 전파 단계
+        -->
+
+        <h2>3. 이벤트 객체 활용</h2>
+
+        <input type="text" :value="name" @input="changeName">
+
+        <br><br>
+
+        이름 : {{ name }}
+        <!--
+        ========================================================
+        3-1. 인라인 + 이벤트 객체 (화살표 함수)
+        ========================================================
+        템플릿 표현식은 Vue가 생성한  컴포넌트 인스턴스를 기준으로 실행된다.
+
+        따라서 data, methods 등에 정의된 값에
+        this 없이 직접 접근할 수 있다.
+
+        - Vue 템플릿은 this 없이 바로 데이터 접근 가능
+
+        e => name = e.target.value
+        → 이벤트 객체를 직접 받아 값 변경
+
+        -->
+
+        <h3>3-1. 인라인 이벤트 + 이벤트 객체</h3>
+        <!-- <input type="text" :value="name" @input="e => this.name = e.target.value">  this 작성하지않아도 됨-->
+
+        <input type="text" :value="name" @input="e => name = e.target.value">
+
+        <p>이름 : {{ name }}</p>
+    </div>
+
+
+    <script src="https://unpkg.com/vue@3"></script>
+
+    <script>
+
+
+        Vue.createApp({
+
+            data() {
+                return {
+
+                    /*
+                    인라인 이벤트 
+                    */
+                    amount: 0,
+                    balance: 0,
+
+                    /*
+                    메서드 이벤트 
+                    */
+                    amount2: 0,
+                    balance2: 0,
+
+                    /*
+                    이벤트 객체 
+                    */
+                    name: ""
+
+                }
+            },
+
+            methods: {
+
+                /*
+                입금 처리
+                //this는 Vue가 생성한 컴포넌트 인스턴스
+                */
+                deposit() {
+
+                    let amt = parseInt(this.amount2)
+
+                    if (amt <= 0) {
+                        alert("0보다 큰 값을 입력하세요")
+                    }
+                    else {
+                        this.balance2 += amt
+                    }
+
+                },
+
+                /*
+                출금 처리
+                */
+                withdraw() {
+
+                    let amt = parseInt(this.amount2)
+
+                    if (amt <= 0) {
+                        alert("0보다 큰 값을 입력하세요")
+                    }
+                    else if (amt > this.balance2) {
+                        alert("잔고보다 많은 금액은 인출할 수 없습니다")
+                    }
+                    else {
+                        this.balance2 -= amt
+                    }
+
+                },
+
+                /*
+                이벤트 객체 사용
+                input 이벤트 발생 시 입력값을 읽어온다
+                */
+                changeName(e) {
+
+                    this.name = e.target.value
+
+                }
+
+            }
+
+        }).mount("#app")
+
+    </script>
+
+</body>
+
+</html>

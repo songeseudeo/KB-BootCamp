@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+
+    <!--
+    ========================================================
+    04. 이벤트 수식어(Event Modifiers)
+    ========================================================
+
+    공식 문서
+    - https://vuejs.org/guide/essentials/event-handling
+
+    1. .once
+    2. 키보드 이벤트 수식어
+      - enter, esc, tab, delete
+      - ctrl, alt, shift, meta
+    3. 마우스 이벤트 수식어
+      - left, right, middle
+    4. .exact
+    5. .passive
+
+    참고
+    - 키 수식어는 KeyboardEvent.key 값을 kebab-case 형태로 그대로 사용할 수 있다.
+      예: page-down → @keyup.page-down="handler"
+    - .delete 는 Delete 와 Backspace 를 함께 처리한다.
+    -->
+
+    <h2>1. .once 수식어</h2>
+
+    <!--
+    .once
+    이벤트를 한 번만 실행한다.
+    첫 클릭 이후에는 같은 이벤트 핸들러가 다시 실행되지 않는다.
+    -->
+    <button @click.once="increaseOnce">
+      한 번만 증가
+    </button>
+    <p>countOnce: {{ countOnce }}</p>
+
+    <hr>
+
+    <h2>2. 키보드 이벤트 수식어</h2>
+
+    <!--
+    Enter 입력 시 실행
+    @keyup.enter="..."
+    -->
+    <div>
+      <p>Enter 입력 테스트</p>
+      <input type="text" v-model="message" @keyup.enter="submitMessage" placeholder="문장을 입력하고 Enter">
+      <p>입력값: {{ message }}</p>
+      <p>처리결과: {{ submittedMessage }}</p>
+    </div>
+
+    <br>
+
+    <!--
+    Ctrl + Enter 조합
+    시스템 수식어 키(ctrl, alt, shift, meta)와 일반 키를 함께 사용할 수 있다.
+
+    주의
+    keyup.ctrl 는 이벤트가 발생하는 순간에도 ctrl 이 눌려 있어야 한다.
+    즉, ctrl 키만 단독으로 떼는 경우에는 keyup.ctrl 이 실행되지 않는다.
+    -->
+    <div>
+      <p>Ctrl + Enter 테스트</p>
+      <textarea v-model="note" @keyup.ctrl.enter="submitNote" rows="4" cols="40"
+        placeholder="내용 입력 후 Ctrl + Enter"></textarea>
+      <p>저장결과: {{ savedNote }}</p>
+    </div>
+
+    <br>
+
+    <!--
+    Esc 입력 시 
+    -->
+    <div>
+      <p>Esc 키 테스트</p>
+      <input type="text" v-model="escText" @keyup.esc="clearEscText" placeholder="입력 후 Esc">
+      <p>현재값: {{ escText }}</p>
+    </div>
+
+    <br>
+
+    <!--
+    .delete
+    Delete 와 Backspace 둘 다 처리한다.
+    -->
+    <div>
+      <p>Delete / Backspace 테스트</p>
+      <input type="text" v-model="deleteText" @keyup.delete="clearDeleteText" placeholder="입력 후 Delete 또는 Backspace">
+      <p>현재값: {{ deleteText }}</p>
+    </div>
+
+    <br>
+
+    <!--
+    KeyboardEvent.key(사용자가 실제로 입력한 키 값 문자열) 값을 kebab-case 로 그대로 사용할 수 있다.
+     https://www.w3.org/TR/uievents-key/ 
+     https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/keyCode
+    예: PageDown → page-down
+    -->
+    <div>
+      <p>PageDown 키 테스트</p>
+      <input type="text" @keyup.page-down="pageDownCount++" placeholder="PageDown 키를 눌러보세요">
+      <p>pageDownCount: {{ pageDownCount }}</p>
+    </div>
+
+    <hr>
+
+    <h2>3. 마우스 이벤트 수식어</h2>
+
+    <!--
+    마우스 버튼 관련 수식어
+    - .left   : main 버튼
+    - .right  : secondary 버튼
+    - .middle : 보조 버튼
+
+      주의
+      이름은 left / right / middle 이지만
+      실제 물리적 버튼 위치와 항상 일치하는 것은 아니다.
+      예를 들어 왼손잡이 마우스 설정에서는 main 버튼이 실제 오른쪽 버튼일 수도 있다.
+    -->
+    <div style="width:320px; padding:16px; border:1px solid #333; user-select:none;" @click.left="leftCount++"
+      @click.middle="middleCount++" @contextmenu.prevent="rightCount++">
+      이 박스에서 마우스를 클릭하세요.<br>
+      왼쪽 클릭 / 가운데 클릭 / 오른쪽 클릭(기본 메뉴 차단)
+    </div>
+
+    <p>leftCount: {{ leftCount }}</p>
+    <p>middleCount: {{ middleCount }}</p>
+    <p>rightCount: {{ rightCount }}</p>
+
+    <hr>
+
+    <h2>4. .exact 수식어</h2>
+
+    <!--
+    .exact
+    지정한 시스템 수식어 키 조합만 정확히 일치할 때 실행한다.
+
+    아래 예제
+    1. 그냥 클릭               -> +1
+    2. Ctrl + 클릭             -> +10
+    3. Ctrl + Alt + 클릭       -> +100
+
+    참고
+    @click.ctrl
+    → Ctrl 이 눌려 있으면 실행
+      (Alt, Shift 가 같이 눌려 있어도 실행될 수 있음)
+
+    @click.ctrl.exact
+    → Ctrl 만 눌린 경우에만 실행
+
+    @click.exact
+    → ctrl / alt / shift / meta 가 아무것도 눌리지 않은 경우에만 실행
+    -->
+    <button @click.exact="num += 1" @click.ctrl.exact="num += 10" @click.ctrl.alt.exact="num += 100">
+      exact 테스트 버튼
+    </button>
+
+    <p>num: {{ num }}</p>
+
+    <hr>
+
+    <h2>5. .passive 수식어</h2>
+
+    <!--
+    .passive
+    스크롤/터치 이벤트에서 기본 동작을 막지 않는다고 선언하여 성능을 개선한다.
+
+    주의
+    .passive 와 .prevent 는 함께 사용하지 않는다.
+    -->
+    <div style="height:120px; overflow:auto; border:1px solid #333; padding:8px;" @scroll.passive="onScrollPassive">
+      <div style="height:300px;">
+        스크롤 테스트 영역<br>
+        아래로 스크롤해보세요.
+      </div>
+    </div>
+
+    <p>scrollCount: {{ scrollCount }}</p>
+
+    <hr>
+
+    <!--
+    ====================================
+    무한 스크롤 패턴 (scroll + passive)
+    ====================================
+
+    scroll 이벤트는 스크롤이 발생할 때마다 계속 실행된다.
+
+    passive 옵션이 적용되어 있기 때문에
+    기본 스크롤 동작을 막지 않고 성능을 최적화한다.
+
+    el.scrollTop       : 현재 스크롤 위치
+    el.clientHeight    : 보이는 영역 높이
+    el.scrollHeight    : 전체 콘텐츠 높이
+
+    아래 조건은 "거의 바닥에 도달했는지" 확인하는 로직
+
+    → 스크롤 위치 + 화면 높이 >= 전체 높이
+    → 즉, 스크롤이 끝까지 내려온 상태
+
+    이 시점에 API 호출을 해서 다음 데이터를 가져오는 방식으로 사용 가능(무한 스크롤)
+    -->
+    <h2>무한 스크롤 패턴 (scroll + passive)</h2>
+    <div @scroll.passive="onScroll" style="height:200px; overflow:auto">
+      <div style="height:800px">내용</div>
+    </div>
+
+    <hr>
+    <h2>무한 스크롤 패턴 (IntersectionObserver)</h2>
+    <div style="height:200px; overflow:auto; border:1px solid #ccc;" ref="scrollBox">
+
+      <div style="height:700px">
+        내용
+      </div>
+
+      <!-- 감지용 요소 -->
+      <div ref="bottom" style="height:50px; background:#eee;">
+        로딩중...
+      </div>
+
+    </div>
+  </div>
+  <script src="https://unpkg.com/vue@3"></script>
+  <script>
+    Vue.createApp({
+      data() {
+        return {
+          countOnce: 0,
+
+          message: "",
+          submittedMessage: "",
+
+          note: "",
+          savedNote: "",
+
+          escText: "",
+          deleteText: "",
+          pageDownCount: 0,
+
+          leftCount: 0,
+          middleCount: 0,
+          rightCount: 0,
+
+          num: 0,
+
+          scrollCount: 0
+        }
+      },
+      methods: {
+        /* .once 예제 */
+        increaseOnce() {
+          this.countOnce++
+        },
+
+        /* Enter 입력 처리 */
+        submitMessage() {
+          this.submittedMessage = this.message
+        },
+
+        /* Ctrl + Enter 입력 처리 */
+        submitNote() {
+          this.savedNote = this.note
+        },
+
+        /* Esc 입력 시 초기화 */
+        clearEscText() {
+          this.escText = ""
+        },
+
+        /* Delete / Backspace 입력 시 초기화 */
+        clearDeleteText() {
+          this.deleteText = ""
+        },
+
+        /* .passive 예제 */
+        onScrollPassive() {
+          this.scrollCount++
+        },
+        onScroll(e) {
+          const el = e.target
+          // el.scrollTop       : 현재 스크롤 위치
+          // el.clientHeight    : 보이는 영역 높이
+          // el.scrollHeight    : 전체 콘텐츠 높이
+          if (el.scrollTop + el.clientHeight >= el.scrollHeight) {
+            console.log("데이터 더 불러오기")
+          }
+        },
+        loadMore() {
+          console.log("데이터 더 불러오기 (observer)")
+        },
+      },
+      mounted() { //IntersectionObserver는 "DOM 요소"가 있어야 동작
+        /*
+          ====================================
+          IntersectionObserver (Lazy Loading)
+          ====================================
+  
+          특정 요소가 "화면에 보이는 순간"을 감지하는 API
+  
+          scroll 이벤트를 직접 쓰지 않고
+          브라우저가 알아서 요소 노출 여부를 판단해준다.
+  
+          → 성능이 더 좋고, 코드가 단순해진다.
+  
+  
+           IntersectionObserver가
+          "요소가 화면에 들어왔는지" 감지
+  
+          entries[0].isIntersecting
+          → 해당 요소가 화면에 들어왔는지 여부 (true / false)
+  
+          observer.unobserve(img)
+          → 한 번 로드 후 감지를 중단 (중복 실행 방지)
+  
+          */
+
+
+        /*
+       ====================================
+       1. 무한 스크롤 트리거
+       ====================================
+ 
+       scroll 이벤트를 직접 사용하지 않고,
+       맨 아래 감지용 요소(bottom)가 보이는 순간
+       다음 데이터를 불러오는 방식
+ 
+       root: this.$refs.scrollBox
+       → 브라우저 전체 화면이 아니라
+         scrollBox 내부를 기준으로 관찰
+ 
+       this.$refs.bottom
+       → 맨 아래 감지용 요소
+       */
+        const bottom = this.$refs.bottom  // 감지용 요소 (맨 아래 div)
+        const scrollBox = this.$refs.scrollBox// 스크롤 영역 (overflow:auto 영역)
+
+        const listObserver = new IntersectionObserver((entries) => {  // observer 생성
+          const entry = entries[0] //// 관찰 대상 정보 (배열로 들어옴)
+          /*
+              bottom 요소가 보이는 순간
+              → 스크롤이 거의 끝까지 내려온 상태
+              */
+          /*
+    isIntersecting
+    → 요소가 화면에 보이면 true
+    → 화면 밖이면 false
+    */
+          if (entry.isIntersecting) {
+            this.loadMore()  // 다음 데이터 요청 (무한 스크롤)
+          }
+        }, {
+          /*
+         root 옵션
+ 
+         기본값:
+         → 브라우저 viewport (전체 화면)
+ 
+         지금은:
+         → scrollBox 내부 스크롤 기준으로 감지
+ 
+         즉,
+         "이 div 안에서 보이면 실행"
+         */
+          root: scrollBox
+        })
+        // bottom 요소 감지 시작
+        listObserver.observe(bottom)
+      }
+    }).mount("#app")
+  </script>
+</body>
+
+</html>
