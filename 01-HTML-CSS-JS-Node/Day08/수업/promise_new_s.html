@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript 비동기 프로그래밍 실습</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+
+        h1,
+        h2 {
+            color: #333;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 12px;
+            border-left: 4px solid #ccc;
+            overflow-x: auto;
+        }
+
+        button {
+            padding: 8px 12px;
+            margin: 6px 0;
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <h1>JavaScript 비동기 프로그래밍 실습</h1>
+
+    <!-- ========================================================= -->
+    <h2>1. Promise</h2>
+
+    <pre>
+        // Promise
+        // 비동기 작업의 결과를 나타내는 객체
+
+        // 상태
+        // pending   : 작업 진행 중
+        // fulfilled : 성공 (resolve)
+        // rejected  : 실패 (reject)
+
+        // then()  : 성공 처리
+        // catch() : 실패 처리
+        // finally(): 항상 실행
+
+        const promise = new Promise((resolve,reject)=>{
+
+        const success = true
+
+        if(success){
+        resolve("작업 성공")
+        }else{
+        reject("작업 실패")
+        }
+
+        })
+
+        promise
+        .then(result=>console.log(result))
+        .catch(error=>console.error(error))
+        .finally(()=>console.log("작업 종료"))
+
+    </pre>
+
+    <h3>실습 : Promise 타이머</h3>
+    <button onclick="runTimerExample()">실행</button>
+
+
+
+    <script>
+
+        function waitFor(seconds) {
+
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve(`${seconds}초 뒤 완료`)
+                }, seconds * 1000)
+            })
+
+        }
+
+        function runTimerExample() {
+
+            waitFor(3)
+                .then(msg => console.log(msg))
+                .finally(() => console.log("타이머 종료"))
+
+        }
+
+    </script>
+
+    <hr>
+
+    <!-- ========================================================= -->
+    <h2>2. JSON</h2>
+
+    <pre>
+
+    // JSON (JavaScript Object Notation)
+    // 서버와 데이터를 주고받는 데이터 형식
+
+    // JSON 예시
+    {
+    "name":"kim",
+    "age":20
+    }
+
+    // 특징
+    // key는 문자열
+    // 데이터 형식 : 문자열 숫자 배열 객체 등
+
+    </pre>
+
+    <h3>JSON 변환 예제</h3>
+
+    <button onclick="jsonExample()">실행</button>
+
+    <pre>
+
+    // 객체 → JSON 문자열
+    const jsonString = JSON.stringify(user)
+
+    // JSON 문자열 → JavaScript 객체
+    const parsed = JSON.parse(jsonString)
+
+
+    </pre>
+
+    <script>
+
+        function jsonExample() {
+
+            const user = {
+                name: "kim",
+                age: 20
+            }
+
+            const jsonString = JSON.stringify(user)
+
+            console.log("JSON 문자열", jsonString)
+
+            const parsed = JSON.parse(jsonString)
+
+            console.log("객체 변환", parsed)
+
+        }
+
+    </script>
+
+    <hr>
+
+    <!-- ========================================================= -->
+    <h2>3. Fetch API</h2>
+
+    <pre>
+
+     Fetch API
+     서버에 HTTP 요청을 보내는 JavaScript API
+     Promise 기반으로 동작
+
+    fetch(url)
+    .then(response=>response.json())
+    .then(data=>console.log(data))
+    .catch(error=>console.error(error))
+
+     response.json()
+     서버에서 받은 JSON 데이터를
+     JavaScript 객체로 변환
+   <!-- https://jsonplaceholder.typicode.com/    API 요청(GET, POST 등)을 테스트하거나 연습할 때 사용-->
+
+    </pre>
+
+    <h3>실습 : 데이터 가져오기</h3>
+
+    <button onclick="fetchData()">실행</button>
+
+    <script>
+
+        function fetchData() {
+
+            fetch('https://jsonplaceholder.typicode.com/posts/1')
+                .then(response => {
+
+                    if (!response.ok) {
+                        throw new Error("HTTP 오류")
+                    }
+
+                    return response.json()
+
+                })
+                .then(data => console.log(data))
+                .catch(err => console.error(err))
+
+        }
+
+    </script>
+
+    <hr>
+
+    <!-- ========================================================= -->
+    <h2>4. Async / Await</h2>
+
+    <pre>
+
+    // async / await
+    // Promise 코드를 동기 코드처럼 작성하게 해주는 문법
+
+    // async : Promise 반환
+    // await : Promise 완료까지 대기
+
+    async function getData(){
+
+        try{
+
+            const response = await fetch(url)
+
+            const data = await response.json()
+
+            console.log(data)
+
+        }catch(error){
+
+            console.error(error)
+
+        }
+
+    }
+
+    </pre>
+
+    <button onclick="fetchAsync()">실행</button>
+
+    <script>
+
+        async function fetchAsync() {
+
+            try {
+
+                const response = await fetch('https://jsonplaceholder.typicode.com/posts/1')
+
+                const data = await response.json()
+
+                console.log(data)
+
+            } catch (error) {
+
+                console.error(error)
+
+            }
+
+        }
+
+    </script>
+
+    <hr>
+
+    <!-- ========================================================= -->
+    <h2>5. API 연동 예제</h2>
+
+    <pre>
+
+    // 게시글 요청
+    // 작성자 요청
+
+ 
+
+    </pre>
+
+    <button onclick="fetchPostAndUser()">실행</button>
+
+    <script>
+
+        async function fetchPostAndUser() {
+
+            try {
+
+                const postResponse = await fetch('https://jsonplaceholder.typicode.com/posts/1')
+                const post = await postResponse.json()
+
+                console.log("게시글", post)
+
+                const userResponse = await fetch(`https://jsonplaceholder.typicode.com/users/${post.userId}`)
+                const user = await userResponse.json()
+
+                console.log("작성자", user)
+
+            } catch (error) {
+
+                console.error(error)
+
+            }
+
+        }
+
+    </script>
+
+    <hr>
+    <h2> 게시글 목록 가져오기 + 댓글 가져오기</h2>
+    <button onclick="fetchPostsAndComments()">댓글 요청 실행</button>
+    <pre>
+        await 여러 번 사용
+        비동기 작업을 순서대로 실행 (순차 실행)
+        앞 작업이 끝나야 다음 작업이 시작됨
+
+        예
+        요청1 시작
+        ↓
+        요청1 완료
+        ↓
+        console 출력
+        ↓
+        요청2 시작
+        ↓
+        요청2 완료
+        ↓
+        console 출력
+    </pre>
+    <script>
+
+        async function fetchPostsAndComments() {
+            try {
+                // 게시글 가져오기
+                const postResponse = await fetch('https://jsonplaceholder.typicode.com/posts');
+                const posts = await postResponse.json();
+                console.log("게시글 목록:", posts.slice(0, 5)); // 처음 5개 게시글만 출력
+
+                // 첫 번째 게시글의 댓글 가져오기
+                const commentsResponse = await fetch(`https://jsonplaceholder.typicode.com/comments?postId=${posts[0].id}`);
+                const comments = await commentsResponse.json();
+                console.log("첫 번째 게시글의 댓글:", comments);
+            } catch (error) {
+                console.error("에러 발생:", error);
+            }
+        }
+    </script>
+    <hr>
+    <!-- ========================================================= -->
+    <h2>6. POST 요청</h2>
+
+    <pre>
+
+    // POST 요청
+    // 서버에 데이터 생성
+
+    fetch(url,{
+        method:'POST',
+        headers:{
+        'Content-Type':'application/json'
+        },
+        body:JSON.stringify(data)
+    })
+
+    </pre>
+
+    <button onclick="postData()">실행</button>
+
+    <script>
+
+        function postData() {
+
+            const newPost = {
+                title: "새 게시글",
+                body: "게시글 내용",
+                userId: 1
+            }
+
+            fetch('https://jsonplaceholder.typicode.com/posts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newPost)
+            })
+                .then(res => res.json())
+                .then(data => console.log(data))
+                .catch(err => console.error(err))
+
+        }
+
+    </script>
+
+    <hr>
+
+    <!-- ========================================================= -->
+    <h2>7. Promise.all</h2>
+
+    <pre>
+
+     Promise.all
+     여러 비동기 작업을 동시에 실행 (병렬 실행)
+     모든 작업이 완료된 후 다음 코드가 실행됨
+
+    Promise.all([
+    fetch('/posts/1'),
+    fetch('/users/1')
+    ])
+   
+     예
+     요청1 시작
+     요청2 시작
+     ↓
+     둘 다 완료
+     ↓
+     console 실행
+    </pre>
+
+    <button onclick="promiseAllExample()">실행</button>
+
+    <script>
+
+        async function promiseAllExample() {
+
+            try {
+
+                const [post, user] = await Promise.all([
+
+                    fetch('https://jsonplaceholder.typicode.com/posts/1')
+                        .then(res => res.json()),
+
+                    fetch('https://jsonplaceholder.typicode.com/users/1')
+                        .then(res => res.json())
+
+                ])
+
+                console.log("게시글", post)
+                console.log("사용자", user)
+
+            } catch (error) {
+
+                console.error(error)
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>

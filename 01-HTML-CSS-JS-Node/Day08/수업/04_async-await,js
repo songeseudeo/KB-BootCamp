@@ -1,0 +1,299 @@
+/*
+04_async-await
+
+async / await
+
+Promise를 사용하면 비동기 작업을 처리할 수 있다.
+하지만 then()이 여러 번 이어지면 코드가 길어지고 읽기 어려울 수 있다.
+
+이 문제를 더 쉽게 해결하기 위해
+ES2017(ECMAScript 2017)에서 async / await 문법이 도입되었다.
+
+async / await는 Promise 위에서 동작하는 문법으로
+비동기 코드를 동기 코드처럼 읽기 쉽게 작성할 수 있게 해준다.
+
+출처
+MDN async function
+https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Statements/async_function
+
+MDN await
+https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Operators/await
+*/
+
+
+/*
+----------------------------------------
+1. async 함수
+----------------------------------------
+
+async를 함수 앞에 붙이면
+그 함수는 항상 Promise를 반환한다.
+
+값을 return 하더라도
+자동으로 Promise.resolve()로 감싸져 반환된다.
+*/
+
+
+async function hello() {
+    return "안녕하세요";
+}
+
+console.log(hello());
+
+/*
+실행 결과
+
+Promise { '안녕하세요' }
+
+설명
+- async 함수는 항상 Promise를 반환한다.
+- 문자열을 return 했지만 실제로는 Promise.resolve()로 감싸진다.
+*/
+
+
+/*
+----------------------------------------
+2. await 기본 개념
+----------------------------------------
+
+await는 Promise가 처리될 때까지
+async 함수의 실행을 일시적으로 멈춘다.
+
+Promise가 resolve되면
+그 결과값을 반환한다.
+
+주의
+await는 async 함수 내부에서만 사용할 수 있다.
+*/
+
+
+function delay(ms) {
+    return new Promise(resolve => {
+        setTimeout(resolve, ms);
+    });
+}
+
+
+async function run1() {
+    console.log("작업 시작");
+
+    await delay(2000);
+
+    console.log("2초 후 실행");
+}
+
+run1();
+
+/*
+실행 결과
+
+작업 시작
+(2초 후)
+2초 후 실행
+*/
+
+
+/*
+----------------------------------------
+3. Promise와 async / await 비교
+----------------------------------------
+
+async / await는 Promise를 대체하는 것이 아니라
+Promise를 더 쉽게 사용하기 위한 문법이다.
+*/
+
+
+function orderCoffeePromise() {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve("커피 준비 완료");
+        }, 2000);
+    });
+}
+
+
+orderCoffeePromise().then(result => {
+    console.log("Promise 방식:", result);
+});
+
+
+async function orderCoffeeAsync() {
+
+    const result = await orderCoffeePromise();
+
+    console.log("async/await 방식:", result);
+
+}
+
+orderCoffeeAsync();
+
+/*
+설명
+
+같은 비동기 작업이라도
+async / await를 사용하면
+코드의 흐름을 더 읽기 쉽게 표현할 수 있다.
+*/
+
+
+/*
+----------------------------------------
+4. 여러 개의 await
+----------------------------------------
+
+await를 여러 번 사용하면
+앞 작업이 끝난 후 다음 작업이 실행된다.
+
+즉 비동기 작업을
+순차적으로 처리할 수 있다.
+
+비동기를 동기로 바꾸는 것이 아니라
+비동기 코드를 순차적으로 작성할 수 있게 해주는 문법이다.
+*/
+
+
+function step1() {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve("1단계 완료");
+        }, 1000);
+    });
+}
+
+function step2() {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve("2단계 완료");
+        }, 1000);
+    });
+}
+
+function step3() {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve("3단계 완료");
+        }, 1000);
+    });
+}
+
+
+async function processSteps() {
+
+    const result1 = await step1();
+    console.log(result1);
+
+    const result2 = await step2();
+    console.log(result2);
+
+    const result3 = await step3();
+    console.log(result3);
+
+}
+
+processSteps();
+
+/* 실행흐름 
+
+step1 시작
+↓
+step1 완료
+↓
+step2 시작
+↓
+step2 완료
+↓
+step3 시작
+↓
+step3 완료
+*/
+
+
+/*
+----------------------------------------
+5. try ... catch
+----------------------------------------
+
+Promise에서는 catch()로 에러를 처리하지만
+
+async / await에서는
+try ... catch를 사용하여 에러를 처리한다.
+*/
+
+
+function orderPizza() {
+
+    return new Promise((resolve, reject) => {
+
+        const success = false;
+
+        setTimeout(() => {
+
+            if (success) {
+                resolve("피자 완성");
+            } else {
+                reject("피자 주문 실패");
+            }
+
+        }, 2000);
+
+    });
+
+}
+
+/* try { 
+            // 실행코드 
+    } catch (error) {  
+            //에러처리
+    } finally{
+            // 항상실행 
+    }
+        await Promise 가 reject 되면  에러가 발생하므로 try-catch 로 처리 
+    */
+   
+async function run2() {
+// https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Statements/try...catch
+    try { //코드에서 에러가 발생할 수 있는 문장을 {}으로 감싸서 처리
+
+        const result = await orderPizza();
+
+        console.log(result);
+
+    } catch (error) {
+
+        console.log("에러 발생:", error);
+
+    } finally{
+        console.log("에러가 나든 안 나든 무조건 동작(실행) 되어야 하는 코드:");
+    }
+
+}
+
+run2();
+
+/*
+출력
+
+(2초 후)
+에러 발생: 피자 주문 실패
+*/
+
+
+/*
+----------------------------------------
+정리
+----------------------------------------
+
+1. async 함수는 항상 Promise를 반환한다.
+
+2. await는 Promise가 처리될 때까지
+   async 함수의 실행을 일시적으로 멈춘다.
+
+3. await는 async 함수 내부에서만 사용할 수 있다.
+
+4. async / await는 Promise를 더 쉽게 사용하기 위한 문법이다.
+
+5. 여러 개의 await를 사용하면
+   비동기 작업을 순차적으로 실행할 수 있다.
+
+6. 에러 처리는 try ... catch를 사용한다.
+*/
