@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>watch vs computed 비교</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.8;
+      margin: 20px;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 12px;
+      margin-bottom: 15px;
+    }
+
+    .result {
+      background: #f7f7f7;
+      padding: 8px;
+      margin-top: 8px;
+    }
+
+    .guide {
+      color: #555;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!--
+==================================================
+watch vs computed 비교
+
+[computed]
+- 기존 데이터를 기반으로 "계산된 값"을 만든다.
+- 의존 데이터가 변경될 때만 자동으로 재계산된다.
+- 캐시가 존재한다.
+
+[watch]
+- 특정 데이터 변화를 "감지"해서
+  추가 동작을 수행한다.
+- 직접 값을 갱신해야 한다.
+- 비동기 처리(API 호출 등)에 적합하다.
+
+
+
+computed → 값을 만든다
+watch → 동작을 수행한다 
+공식 문서
+computed
+https://vuejs.org/guide/essentials/computed.html
+
+watch
+https://vuejs.org/guide/essentials/watchers.html
+==================================================
+-->
+
+  <div id="app">
+
+    <!-- 공통 입력 -->
+    <div class="box">
+      <h1>입력 영역</h1>
+
+      x : <input type="text" v-model.number="x" /><br />
+      y : <input type="text" v-model.number="y" /><br />
+
+      <div class="result">
+        현재 값 → x: {{ x }}, y: {{ y }}
+      </div>
+    </div>
+
+
+    <!-- computed -->
+    <div class="box">
+      <h2>computed 방식</h2>
+
+      <!--
+    computed는 값을 반환하는 방식이다.
+    -->
+      덧셈 결과 : {{ computedSum }}
+
+      <div class="result">
+        computed sum : {{ computedSum }}
+      </div>
+
+      <p class="guide">
+        - computed는 x, y가 변경될 때만 다시 계산된다.<br />
+        - 캐시가 있기 때문에 같은 값을 여러 번 사용해도 재계산하지 않는다.
+      </p>
+    </div>
+
+
+    <!-- watch -->
+    <div class="box">
+      <h2>watch 방식</h2>
+
+      <!--
+    watch는 값을 직접 갱신해야 한다.
+    -->
+      덧셈 결과 : {{ watchSum }}
+
+      <div class="result">
+        watch sum : {{ watchSum }}
+      </div>
+
+      <p class="guide">
+        - watch는 x, y의 변화를 감지해서 직접 sum을 계산한다.<br />
+        - console.log를 통해 실행 시점을 확인할 수 있다.
+      </p>
+    </div>
+
+  </div>
+
+  <script src="https://unpkg.com/vue"></script>
+  <script>
+
+    Vue.createApp({
+      name: 'App',
+
+      data() {
+        return {
+          x: 0,
+          y: 0,
+          watchSum: 0
+        };
+      },
+
+      /*
+      computed
+      - 값을 "계산해서 반환"하는 용도
+       값 계산이 목적일 때는 watch보다 computed가 더 간결
+      */
+      computed: {
+        computedSum() {
+          console.log('## computed 실행');
+
+          let result = Number(this.x) + Number(this.y);
+          if (isNaN(result)) return 0;
+
+          return result;
+        }
+      },
+
+    //   개별 값 watch (x, y)
+    // - 각각의 값을 따로 감시
+    // - old / current 값이 정확하게 다름 (primitive)
+    // - 특정 값 변화에 반응할 때 사용 (추천)
+    // - 속성명과 똑같은함수명 지정
+
+      watch: {
+
+        x(current, old) { // x 값이 바뀔 때만 실행
+          console.log(`## watch x: ${old} → ${current}`);
+          this.updateSum();
+        },
+
+        y(current, old) { // y 값이 바뀔 때만 실행
+          console.log(`## watch y: ${old} → ${current}`);
+          this.updateSum();
+        }
+      },
+
+      methods: {
+
+        /*
+        watch는 값이 변경되었음을 감지할 뿐,
+        계산이나 데이터 변경은 자동으로 해주지 않는다.
+
+        따라서 데이터변화를감지한뒤 수행할 로직을 작성    */
+        updateSum() {
+          let result = Number(this.x) + Number(this.y);
+          this.watchSum = isNaN(result) ? 0 : result;
+        }
+
+      }
+
+    }).mount('#app');
+
+  </script>
+
+</body>
+
+</html>

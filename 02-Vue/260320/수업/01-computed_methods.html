@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>computed와 methods 비교</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.8;
+            margin: 20px;
+        }
+
+        .box {
+            border: 1px solid #ccc;
+            padding: 12px;
+            margin-bottom: 15px;
+        }
+
+        .result {
+            background: #f7f7f7;
+            padding: 8px;
+            margin-top: 8px;
+        }
+
+        .guide {
+            color: #555;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <!--
+    ==================================================
+    computed와 methods 비교
+
+    [computed]
+    1. 기존 반응형 데이터를 기반으로 계산된 값을 제공한다.
+    2. 의존 데이터가 변경될 때만 다시 계산된다.
+    3. 계산 결과를 캐시한다.
+    4. 템플릿에서는 속성처럼 사용한다.
+       예: {{ computedSum }}
+
+    [methods]
+    1. 컴포넌트 내부에서 사용하는 함수이다.
+    2. 이벤트 처리나 일반 로직에 적합하다.
+    3. 템플릿에서 직접 호출하면 렌더링될 때마다 다시 실행된다.
+    4. 캐시가 없다.
+       예: {{ methodSum() }}
+
+    
+
+    [공식 문서]
+    Computed Properties
+    https://vuejs.org/guide/essentials/computed.html
+
+    Event Handling / Methods 관련
+    https://vuejs.org/guide/essentials/event-handling.html
+
+    Form Input Bindings
+    https://vuejs.org/guide/essentials/forms.html
+    ==================================================
+    -->
+
+    <div id="app">
+
+        <div class="box">
+            <h1>computed</h1>
+
+          
+            1보다 큰 수: <input type="text" v-model.number="num" />
+            <br />
+
+            <!--
+            computedSum은 computed에 정의된 계산된 속성이다.
+            템플릿에서는 함수처럼 호출하지 않고 속성처럼 사용한다.
+
+            [computed 캐시 동작 과정]
+            1. 처음 computedSum이 필요할 때
+               → 계산 실행
+               → 결과를 캐시에 저장
+
+            2. 같은 렌더링 안에서 computedSum이 다시 필요할 때
+               → 캐시된 값을 그대로 사용
+               → 재계산하지 않음
+
+            console.log로 실행 횟수를 확인하면 1번만 실행된다.
+            -->
+            1부터 입력한 값까지의 합: <span>{{ computedSum }}</span><br />
+            1부터 입력한 값까지의 합: <span>{{ computedSum }}</span><br />
+            1부터 입력한 값까지의 합: <span>{{ computedSum }}</span><br />
+
+            <div class="result">현재 입력값 num : {{ num }}</div>
+
+            <p class="guide">
+                - 같은 computedSum 값을 3번 출력해도 num이 바뀌지 않으면 다시 계산되지 않는다.<br />
+                - num 값이 변경될 때만 computed가 다시 실행되는지 콘솔에서 확인한다.
+            </p>
+        </div>
+
+        <div class="box">
+            <h1>methods</h1>
+
+            <!--
+            methodSum()은 methods에 정의된 함수이다.
+            템플릿에서 직접 호출하면 렌더링될 때마다 실행된다.
+
+            즉,
+            같은 값을 3번 출력하면 함수도 3번 호출된다.
+            -->
+            1부터 입력한 값까지의 합: <span>{{ methodSum() }}</span><br />
+            1부터 입력한 값까지의 합: <span>{{ methodSum() }}</span><br />
+            1부터 입력한 값까지의 합: <span>{{ methodSum() }}</span><br />
+
+            <div class="result">현재 입력값 num : {{ num }}</div>
+
+            <p class="guide">
+                - methods는 캐시가 없기 때문에 템플릿에서 호출할 때마다 다시 실행된다.<br />
+                - 콘솔에서 methodSum이 여러 번 실행되는지 확인한다.
+            </p>
+        </div>
+
+    </div>
+
+    <script src="https://unpkg.com/vue"></script>
+    <script>
+        Vue.createApp({
+            name: 'App',
+
+            data() {
+                return {
+                    num: 0,
+                };
+            },
+
+            /*
+            computed
+            - 기존 반응형 상태(num)를 이용해 새로운 값을 계산한다.
+            - 의존 데이터가 바뀔 때만 다시 계산된다.
+            - 캐시가 있으므로 같은 렌더링 안에서는 재사용된다.
+
+            computedSum:
+            1부터 num까지의 합을 계산한다.
+            등차수열의 합 공식: n * (n + 1) / 2
+            */
+            computed: {
+                computedSum() {
+                    console.log('## computed 실행 / num = ' + this.num);
+
+                    let n = Number(this.num);
+
+                    // 숫자가 아니면 0 반환
+                    if (Number.isNaN(n)) return 0;
+
+                    return (n * (n + 1)) / 2;
+                },
+            },
+
+            methods: {
+                /*
+                methods
+                - 템플릿에서 호출될 때마다 실행된다.
+                - 캐시가 없다.
+
+              */
+                methodSum() {
+                    console.log('## method 실행 / num = ' + this.num);
+
+                    let n = Number(this.num);
+
+                    if (Number.isNaN(n)) return 0;
+
+                    return (n * (n + 1)) / 2;
+                },
+            },
+        }).mount('#app');
+    </script>
+</body>
+
+</html>

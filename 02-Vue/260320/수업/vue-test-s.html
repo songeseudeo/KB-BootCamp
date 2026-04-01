@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap 5 + Vue 실습</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Vue 3 -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+
+<body>
+
+  <div id="app">
+
+    <!--
+  ====================================================
+  Navbar
+  - menus 배열을 v-for로 출력
+  - currentMenu 값에 따라 active 클래스 적용
+  ====================================================
+  -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">Vue + Bootstrap 실습</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
+          aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="menu">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item" v-for="menu in menus" :key="menu.id">
+              <a href="#" class="nav-link" :class="{ active: currentMenu === menu.id }"
+                @click.prevent="currentMenu = menu.id">
+                {{ menu.name }}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mt-5">
+
+      <!--
+    ====================================================
+    Alert
+    - saved 값이 true일 때만 alert 표시
+    - v-if 사용
+    ====================================================
+    -->
+      <h2 class="mb-3">Alert + Button</h2>
+
+      <div class="alert alert-success alert-dismissible fade show" v-if="saved">
+        저장이 완료되었습니다.
+        <button type="button" class="btn-close" @click="saved = false"></button>
+      </div>
+
+      <div class="d-flex gap-2 mb-5">
+        <button class="btn btn-primary" @click="saveData">저장</button>
+        <button class="btn btn-outline-secondary" @click="saved = false">닫기</button>
+      </div>
+
+
+      <!--
+    ====================================================
+    Card
+    - courses 배열을 v-for로 반복 출력
+    ====================================================
+    -->
+      <h2 class="mb-4">Grid + Card 예제</h2>
+
+      <div class="row g-4">
+        <div class="col-12 col-md-6 col-lg-3" v-for="course in courses" :key="course.id">
+          <div class="card shadow-sm h-100">
+            <div class="card-body">
+              <h5 class="card-title">{{ course.title }}</h5>
+              <p class="card-text">{{ course.desc }}</p>
+
+              <span class="badge" :class="course.badgeClass">
+                {{ course.level }}
+              </span>
+            </div>
+
+            <div class="card-footer">
+              <button class="btn w-100" :class="course.buttonClass">
+                학습하기
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!--
+    ====================================================
+    Form
+    - v-model 로 입력값 연결
+    - 입력 결과를 아래에 바로 출력
+    ====================================================
+    -->
+      <h2 class="mt-5">Form 예제</h2>
+
+      <form @submit.prevent="submitForm">
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-control" placeholder="email 입력" v-model="form.email">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">과정 선택</label>
+          <select class="form-select" v-model="form.course">
+            <option disabled value="">과정을 선택하세요</option>
+            <option>HTML</option>
+            <option>Bootstrap</option>
+            <option>Vue</option>
+          </select>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="agree" v-model="form.agree">
+          <label class="form-check-label" for="agree">
+            수강 동의
+          </label>
+        </div>
+
+        <button class="btn btn-primary mt-3">제출</button>
+      </form>
+
+      <!-- 입력값 확인 -->
+      <div class="mt-4 p-3 border rounded bg-light">
+        <h5>입력값 확인</h5>
+        <p class="mb-1"><strong>Email:</strong> {{ form.email }}</p>
+        <p class="mb-1"><strong>과정:</strong> {{ form.course }}</p>
+        <p class="mb-0"><strong>동의 여부:</strong> {{ form.agree ? '동의함' : '동의 안 함' }}</p>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const { createApp } = Vue;
+
+    createApp({
+      data() {
+        return {
+          saved: false,
+
+          currentMenu: 'home',
+
+          menus: [
+            { id: 'home', name: 'Home' },
+            { id: 'about', name: 'About' },
+            { id: 'contact', name: 'Contact' }
+          ],
+
+          courses: [
+            {
+              id: 1,
+              title: 'HTML',
+              desc: '웹 페이지 기본 구조',
+              level: '기초',
+              badgeClass: 'bg-primary',
+              buttonClass: 'btn-primary'
+            },
+            {
+              id: 2,
+              title: 'CSS',
+              desc: '스타일과 레이아웃',
+              level: '추천',
+              badgeClass: 'bg-success',
+              buttonClass: 'btn-success'
+            },
+            {
+              id: 3,
+              title: 'Bootstrap',
+              desc: 'UI 프레임워크',
+              level: '실습',
+              badgeClass: 'bg-warning text-dark',
+              buttonClass: 'btn-warning'
+            },
+            {
+              id: 4,
+              title: 'Vue',
+              desc: '프론트엔드 프레임워크',
+              level: '심화',
+              badgeClass: 'bg-danger',
+              buttonClass: 'btn-danger'
+            }
+          ],
+
+          form: {
+            email: '',
+            course: '',
+            agree: false
+          }
+        };
+      },
+      methods: {
+        saveData() {
+          this.saved = true;
+        },
+        submitForm() {
+          alert(
+            `제출 완료\nEmail: ${this.form.email}\n과정: ${this.form.course}\n동의 여부: ${this.form.agree ? '동의함' : '동의 안 함'}`
+          );
+        }
+      }
+    }).mount('#app');
+  </script>
+
+</body>
+
+</html>

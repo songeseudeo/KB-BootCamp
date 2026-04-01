@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Vue3 템플릿 문법 실습</title>
+    <style>
+        body {
+            font-family: Arial;
+            line-height: 1.8;
+        }
+
+        .box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!--
+    ==================================================
+    Vue Template Syntax (보간법)
+
+    Vue에서는 data()에서 정의한 데이터를
+    HTML 템플릿에서 바로 사용할 수 있다.
+
+    대표적인 데이터 출력 방법
+
+    1. {{ }}  -> Mustache Interpolation
+    2. v-text -> 텍스트 출력 디렉티브
+    3. v-html -> HTML 렌더링 디렉티브
+
+    공식문서
+    https://vuejs.org/guide/essentials/template-syntax.html
+    ==================================================
+    -->
+
+    <div id="app">
+
+        <h1>Vue3 템플릿 문법 실습</h1>
+
+        <!--
+        1. Mustache 보간법
+
+        {{ 변수 }}
+
+        Vue 인스턴스의 데이터를
+        HTML 템플릿에 텍스트로 출력한다.
+
+        HTML 태그가 포함되어 있어도
+        HTML로 렌더링하지 않고 일반 텍스트로 출력한다.
+        -->
+        <div class="box">
+            <h3>1. Mustache 보간법</h3>
+            <p>{{ message }}</p>
+        </div>
+
+
+        <!--
+        2. v-text 디렉티브
+
+        v-text="데이터"
+
+        요소의 textContent를 설정한다.
+        즉, 내부 내용을 순수 텍스트로 출력한다.
+
+        {{ }} 와 출력 결과는 동일하지만
+        속성 형태로 작성한다는 차이가 있다.
+
+        공식문서
+        https://vuejs.org/api/built-in-directives.html#v-text
+        -->
+        <div class="box">
+            <h3>2. v-text</h3>
+            <p v-text="message"></p>
+        </div>
+
+        <!--
+        3. v-html 디렉티브
+
+        v-html="데이터"
+
+        요소의 innerHTML을 설정한다.
+        HTML 태그가 실제 DOM 요소로 렌더링된다.
+
+        [주의]
+        API 응답 등 외부 데이터등 신뢰할 수 없는 데이터를 사용할 경우
+        XSS(Cross-Site Scripting) 보안 문제가 발생할 수 있으므로 주의해야 한다.
+
+        XSS란?
+        웹 페이지에 악성 스크립트를 삽입하여
+        사용자의 브라우저에서 실행되도록 하는 보안 취약점이다.
+
+
+        MDN 공식문서
+        https://developer.mozilla.org/ko/docs/Glossary/Cross-site_scripting
+
+        Vue 공식문서
+        https://vuejs.org/api/built-in-directives.html#v-html
+        -->
+        <div class="box">
+            <h3>3. v-html</h3>
+            <p v-html="htmlMessage"></p>
+        </div>
+
+
+        <!--
+        HTML 태그 출력 비교
+
+        Mustache 보간법은 HTML 태그를 문자열로 출력한다.
+        v-html은 HTML 태그를 실제 DOM으로 렌더링한다.
+        -->
+        <div class="box">
+            <h3>HTML 출력 비교</h3>
+
+            <p>보간법 결과</p>
+            <p>{{ htmlMessage }}</p>
+
+            <p>v-html 결과</p>
+            <p v-html="htmlMessage"></p>
+
+        </div>
+
+    </div>
+
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <script>
+
+      
+
+        const app = Vue.createApp({
+
+          
+            data() {
+                return {
+
+                    // 일반 문자열 데이터
+                    message: "Hello Vue3!",
+
+                    // HTML 문자열 데이터
+                    htmlMessage: "<strong>안녕하세요</strong> Vue3",
+
+                }
+            }
+
+        })
+
+     
+        app.mount("#app")
+
+
+
+        /*
+        https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Trailing_commas
+        trailing comma (후행 쉼표)
+
+        객체나 배열에서 마지막 요소 뒤에 붙는 쉼표를 의미한다.
+
+        예:
+        { a: 1, b: 2, }
+        [1, 2, 3,]
+
+        특징:
+        - 코드 동작에는 영향을 주지 않는다.
+        - 다음 항목을 추가할 때 기존 줄을 수정하지 않아도 되어 유지보수가 편하다.
+
+        */
+    </script>
+
+</body>
+
+</html>
