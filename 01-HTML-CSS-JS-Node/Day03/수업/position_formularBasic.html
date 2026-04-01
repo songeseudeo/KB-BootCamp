@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>CSS3 Position Property</title>
+    <style>
+        .box {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+        }
+
+        .box:nth-child(1) {
+            background-color: red;
+            left: 10px;
+            top: 10px;
+            z-index: 100;  /* 가장 위에 표시 */
+        }
+
+        .box:nth-child(2) {
+            background-color: green;
+            left: 50px;
+            top: 50px;
+            z-index: 10;
+        }
+
+        .box:nth-child(3) {
+            background-color: blue;
+            left: 90px;
+            top: 90px;
+            z-index: 1;
+        }
+
+         /* body 바로 아래의 div(=부모 컨테이너) */
+    body > div {
+      width: 400px;
+      height: 100px;
+      /*  부모 높이를 100px로 고정 */
+      border: 3px solid black;
+      position: relative;
+      /*  absolute( 자식들)의 기준점이 됨 */
+      /* overflow: hidden;         => 현재는 미적용 상태  기본값은 overflow: visible */
+    }
+  </style>
+    </style>
+</head>
+
+<body>
+    <h1>Lorem ipsum dolor amet</h1>
+    <div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+    </div>
+    <h1>Lorem ipsum dolor amet</h1>
+</body>
+
+</html>
+<!--
+z-index
+
+겹칠 때 쌓이는 순서를 결정.
+
+값이 클수록 위에 표시.
+
+조건:
+position이 있어야 적용됨.
+
+
+
+기본 원리 
+
+같은 z-index면
+HTML 아래쪽 요소가 위에 표시.
+
+
+z-index 순서: 숫자가클수록위 
+
+red   → 100 (가장 위)
+green → 10
+blue  → 1 (가장 아래)
+
+ 빨간 박스가 항상 가장 위에 표시됨
+
+ -->
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+
+        .parent {
+             width: 120px;
+            height: 120px;
+            position: relative;
+            z-index: 1; /* 새로운 stacking context 생성 */
+             background:yellow;
+           
+               margin: 20px 0;
+        }
+
+        .red {
+             width: 100px;
+            height: 100px;
+            position: absolute;
+            z-index: 9999;   /* parent 안에서는 최상위 */
+             left: 0;
+            top: 0;
+            background:red;
+        }
+
+        .blue {
+             width: 100px;
+            height: 100px;
+            position: relative;
+            z-index: 2;/*  parent(z=1)보다 위 */
+             background:blue;
+              margin-top: -80px;     /* 일부러 겹치게 */
+        }
+
+
+<body>
+  <div class="parent">
+    <div class="red"></div>
+  </div>
+
+  <div class="blue"></div>
+</body>
+
+
+ .red는 z-index: 9999여도 parent 안에서만 최상위
+
+.parent 자체가 z-index: 1인 “한 덩어리”
+.blue는 z-index: 2라서 parent 덩어리 전체보다 위
+그래서 파랑이 빨강 보다위인것
+
+
+z-index는 같은 stacking context 내부에서만 비교됨
+position + z-index가 있으면 새 stacking context가 생김
+자식이 아무리 z-index: 9999여도 부모 덩어리(z-index)가 낮으면 밖에서 못 이김  -->

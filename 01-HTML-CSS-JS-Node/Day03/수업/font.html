@@ -1,0 +1,322 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS Font 실습 </title>
+
+<!-- Google Web Font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gaegu&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+<style>
+
+/* ======================================================
+CSS FONT PRACTICE 
+참고: MDN Web Docs
+https://developer.mozilla.org/en-US/docs/Web/CSS/font
+
+/* =========================================================
+1. font-family
+텍스트에 사용할 글꼴을 지정한다.
+
+형식
+font-family: 글꼴1, 글꼴2;
+
+특징
+- 앞에 있는 글꼴이 우선 적용
+- 글꼴이 없으면 다음 글꼴 사용 
+
+예
+font-family: "Noto Sans KR", Arial, sans-serif;
+========================================================= */
+
+
+/* =========================================================
+2. 웹폰트 (Web Font)
+
+사용자의 컴퓨터에 폰트가 없어도
+웹에서 다운로드하여 사용 가능
+
+대표 사이트
+Google Fonts
+https://fonts.google.com
+
+사용방법
+
+1️ link 태그로 폰트 연결
+<link href="웹폰트주소" rel="stylesheet">
+
+2️ CSS 적용
+font-family: '폰트이름', sans-serif;
+
+예
+font-family: 'Noto Sans KR', sans-serif;
+========================================================= */
+
+
+/* =========================================================
+3. font-size
+텍스트 크기 지정
+
+형식
+font-size: 크기;
+
+대표 단위
+
+px
+→ 고정 크기 (디자인 시안과 동일)
+
+em
+→ 부모 요소 기준
+
+rem
+→ html(root) 요소 기준
+
+%
+
+→ 부모 요소 기준 비율
+
+예
+font-size: 16px;
+font-size: 1.2rem;
+font-size: 150%;
+========================================================= */
+
+
+/* =========================================================
+4. font-weight
+텍스트 두께 지정
+
+형식
+font-weight: 값;
+
+값
+normal
+bold
+
+또는 숫자
+
+100 ~ 900
+
+예
+font-weight: bold;
+font-weight: 700;
+========================================================= */
+
+
+/* =========================================================
+5. line-height
+줄 간격 지정
+
+형식
+line-height: 값;
+
+예
+line-height: 1.5;
+
+
+========================================================= */
+
+
+/* =========================================================
+6. font (shorthand)
+
+글꼴 관련 속성을 한번에 지정
+
+형식
+
+font:
+font-style
+font-weight
+font-size / line-height
+font-family;
+
+예
+
+font: italic bold 20px/30px Arial;
+
+====================================================== */
+
+/* 기본 글꼴 */
+
+body{
+    font-family: "Noto Sans KR", Arial, sans-serif;
+    margin:40px;
+}
+
+/* 박스 스타일  */
+.box{
+    border:1px solid #ccc;
+    padding:15px;
+    margin:10px 0;
+}
+
+
+/* --------------------------------------------------
+1. font-family
+-------------------------------------------------- */
+
+.font1{
+    font-family: Arial, sans-serif;
+}
+
+.font2{
+    font-family: "Times New Roman", serif;
+}
+
+.font3 {
+  font-family: "Gaegu", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+/* --------------------------------------------------
+2. font-size
+-------------------------------------------------- */
+
+
+html{
+    font-size:20px;
+}
+
+.size-px{
+    font-size:24px;
+}
+
+.size-rem{
+    font-size:1.5rem;
+}
+
+.size-percent{
+    font-size:150%;
+}
+
+
+/* --------------------------------------------------
+3. font-weight
+-------------------------------------------------- */
+
+.weight-normal{
+    font-weight:normal;
+}
+
+.weight-bold{
+    font-weight:bold;
+}
+
+.weight-700{
+    font-weight:700;
+}
+
+
+/* --------------------------------------------------
+4. line-height
+-------------------------------------------------- */
+
+
+.line1{
+    line-height:1.2;
+}
+
+.line2{
+    line-height:1.6;
+}
+
+.line3{
+    line-height:2;
+}
+
+
+/* --------------------------------------------------
+5. font-style
+-------------------------------------------------- */
+
+.italic{
+    font-style:italic;
+}
+
+
+/* --------------------------------------------------
+6. font shorthand
+-------------------------------------------------- */
+
+.font-short{
+    font: italic bold 24px/1.6 Arial;
+}
+
+/* --------------------------------------------------
+7. 링크밑줄 제거
+-------------------------------------------------- */
+
+a { text-decoration: none; }
+</style>
+</head>
+
+<body>
+
+<h1>CSS 글꼴(Font) 실습</h1>
+
+<h2>1. font-family</h2>
+
+<div class="box font1">Arial 글꼴 테스트</div>
+<div class="box font2">Times New Roman 글꼴 테스트</div>
+<div class="box font3">기본 글꼴</div>
+
+
+<h2>2. font-size</h2>
+
+<div class="box size-px">font-size : 24px</div>
+<div class="box size-rem">font-size : 1.5rem</div>
+<div class="box size-percent">font-size : 150%</div>
+
+
+<h2>3. font-weight</h2>
+
+<div class="box weight-normal">font-weight : normal</div>
+<div class="box weight-bold">font-weight : bold</div>
+<div class="box weight-700">font-weight : 700</div>
+
+
+<h2>4. line-height</h2>
+
+<div class="box line1">
+line-height 1.2<br>
+여러 줄 텍스트 테스트<br>
+줄 간격 비교
+</div>
+
+<div class="box line2">
+line-height 1.6<br>
+여러 줄 텍스트 테스트<br>
+줄 간격 비교
+</div>
+
+<div class="box line3">
+line-height 2<br>
+여러 줄 텍스트 테스트<br>
+줄 간격 비교
+</div>
+
+
+<h2>5. font-style</h2>
+
+<div class="box italic">
+font-style : italic 테스트
+</div>
+
+
+<h2>6. font shorthand</h2>
+
+<div class="box font-short">
+font: italic bold 24px/1.6 Arial
+</div>
+
+<h2>7. 링크밑줄 제거-text-decoration</h2>
+
+<a href="#">https://fonts.google.com</a>
+
+</body>
+</html>

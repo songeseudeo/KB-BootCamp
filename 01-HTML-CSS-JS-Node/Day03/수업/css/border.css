@@ -1,0 +1,73 @@
+/*border-style (테두리 스타일 지정)
+none : 테두리가 나타나지 않음(default 값)
+hidden ; 테두리가 나타나지 않음(none과 같음)
+dashed : 짧은 (dotted보다 긴 점선) 선으로 표시 
+dotted : 점선 테두리 
+double : 두 개의 실선 
+groove : 테두리가 안으로 파진것처럼 보이는 선 
+inset : 테두리를 포함한 컨텐츠 영역이 안으로 들어간것처럼 보임 
+outset : 테두리를 포함한 컨텐츠 영역이 밖으로 튀어나온것처럼 보임 
+ridge : 테두리가 밖으로 튀어나온것처럼 보임 
+solid : 기본 실선
+border-width (테두리 두께 지정)
+속성값    - thin(얇게) 
+         - medium (중간크기) 
+         - thick (두껍게) 
+위치값    - top, right, left, bottom 
+*/
+
+div{
+    width: 100px;
+    height: 100px;
+    border-width: 3px;
+    margin: 10px;
+}
+
+#b1{
+    box-shadow: 5px 5px 10px -4px gray;
+}
+
+#b2{
+    border-top-width: 10px;
+    border-style: dotted;
+}
+
+#b3{
+    border-style: dashed;
+    border-right-color: blue;
+}
+
+#b4{
+    border-style: groove;
+    border-top-left-radius: 50px;
+}
+
+#b5{
+    border-style: ridge;
+    border-top-left-radius: 50px;
+    box-shadow: 5px 5px 3px 2px gray;
+}
+
+#b6{
+    border-style: double;
+    border-color: blue;
+}
+
+#b7{
+    border-style: inset;
+    border-top-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+}
+
+#b8{
+    border-style: solid;
+    border-radius: 50px;
+}
+
+#b9{
+    border-style: outset;
+}
+
+#b10{
+    border: 10px dashed black;
+}

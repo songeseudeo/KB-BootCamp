@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        
+       /* 비활성 input */
+        input:disabled{
+            background-color: pink;
+        }
+
+        /* 입력창 선택 */
+        input:focus{
+            background-color: lightgreen;
+        }
+
+        /* 버튼에 마우스 올릴 때 */
+        button:hover{
+            color: red;
+            background-color: aqua;
+            font-weight: bold;
+        }
+
+        /* 버튼 클릭 순간 */
+        button:active{
+            background-color: orange;
+        }
+
+        /* 방문하지 않은 링크 */
+        a:link{
+            color: blue;
+        }
+
+        /* 방문한 링크 */
+        a:visited{
+            color: purple;
+        }
+    </style>
+
+
+</head>
+<body>
+     user: <input type="text" name="user" disabled value="apple">
+    <br>
+    pass: <input type="text" name="pass" ><br>
+    <button>로그인하기</button>
+
+    <a href="https://www.naver.com">네이버</a><br>
+    <a href="https://www.google.com">구글</a><br>
+</body>
+</html>
+
+<!--
+================================
+CSS 상태 선택자 (Pseudo-class)  슈도 - 가짜
+================================
+
+:link
+: 방문하지 않은 링크 상태
+
+:visited
+: 방문한 링크 상태
+
+:hover
+: 마우스를 올렸을 때 상태
+
+:active
+: 마우스로 클릭하고 있는 상태
+
+:focus
+: 입력 요소(input 등)가 선택된 상태
+
+:disabled  
+:비활성 상태
+-->

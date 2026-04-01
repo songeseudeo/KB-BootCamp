@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+/***********************기본*******************************/       
+        p {
+            background-color: lightgreen ; /*!important*/
+        }
+
+        .test {
+            background-color: black;
+            color: white;
+        }
+
+
+        #p1 {
+            background-color: blue;
+        }
+
+        p { background-color: red;}
+
+        
+/***********************자손 후손 형제*******************************/
+ 
+
+          /* #d1 바로 아래에 있는 p 요소만 선택 */
+        #d1 > p  {
+
+            background-color: pink;
+
+        }
+        /*  #d2 안에 포함된 모든 p 요소 선택 */
+        #d2 p  {
+
+            background-color: aqua;
+
+        }
+
+        /* h3 바로 뒤 p 하나 */
+        h3 + p{
+            border:3px solid red;
+        }
+
+        /* h3 뒤에 있는 모든 p */
+        h3 ~ p{
+            background-color: rgb(206, 219, 27);
+        }
+        /* #p1 바로 뒤에 있는 p 하나 선택 (인접 형제 선택자) */
+        #p1 + p{
+            border:3px solid rgb(122, 120, 233);
+        }
+        /* #d22 바로 뒤에 있는 p 하나 선택 (인접 형제 선택자) */
+        #d22 + p{
+            border:3px solid rgb(122, 120, 233);
+        }
+        /* #p1 뒤에 있는 모든 p 선택 (일반 형제 선택자) */
+        #p1 ~ p{
+            background-color: rgb(201, 14, 55);
+        }
+
+    </style>
+</head>
+<body>
+    <div id="d1">
+        <p class = "test">블랙핑크</p>
+        <div id="d11">
+            <p>제니</p>
+            <p>리사</p>
+        </div>
+    </div>
+
+    <div id="d2">
+        <p class = "test" id="p1" style="background-color: yellow;">감자3</p>
+        <div id="d22">
+            <p>제니2</p>
+            <p>리사2</p>
+        </div>
+        <p>제니3</p>
+        <p>리사3</p>
+    </div>
+    <h3>형제 선택자 테스트</h3>
+    <p>형제1</p>
+    <p>형제2</p>
+    <p>형제3</p>
+
+    <pre>태그선택자 < 클래스 선택자 < 아이디선택자 < 인라인선택자 < !important 순서로 우선순위 적용</pre>
+
+</body>
+</html>
+
+
+<!--
+
+================================
+CSS 선택자 우선순위 (Specificity)
+================================
+
+
+태그 < 클래스 < 아이디 < 인라인 < !important
+!important를 많이 사용하는 것을 권장하지 않음 
+
+
+================================
+CSS 선택자 개념 정리
+================================
+    태그 선택자
+    p
+
+    클래스 선택자
+    .test
+
+    아이디 선택자
+    #p1
+
+    자손 선택자 (Child Selector)
+    a > b
+    : a의 바로 아래에 있는 b 요소 선택 (직계 자식)
+
+    후손 선택자 (Descendant Selector)
+    a b
+    : a 안에 포함된 모든 b 요소 선택 (모든 하위 요소)
+
+    인접 형제 선택자 (Adjacent Sibling Selector)
+    a + b
+    : a 바로 뒤에 오는 b 요소 하나 선택
+
+    일반 형제 선택자 (General Sibling Selector)
+    a ~ b
+    : a 뒤에 있는 모든 b 요소 선택 (같은 레벨)
+
+-->

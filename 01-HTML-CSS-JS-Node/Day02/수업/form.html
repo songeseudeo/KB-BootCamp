@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>폼관련태그</title>
+</head>
+<body>
+    <h1>입력양식관련태그</h1>
+    <h2>input태그</h2>
+    <p>사용자에게  값을 입력 받을수있는 텍스트상자 또는 체크박스 등을 만들수있다.</p>
+
+    아이디 : <input type ="text" disabled><br>
+    비밀번호 : <input type = "password"><br>
+    성별 : <input type ="radio"> 남 <input type ="radio"> 여<br>
+    <button>회원가입</button>
+
+    <h1> 폼관련태그</h1>
+    <p> form 태그는 html 사용자가 입력할수 있는 양식을 제공하는 태그이다.<br>
+        form태그내의 input태그들을 통해 사용자가 입력한 정보를 서버로 넘기면서 요청하는 역할을 한다.<br>
+        * action 속성 : 폼내에 입력된 값들을 전달할 서버측 URL을 기입한다.<br>
+        * method 속성 : get/post 방식으로 전송 방식을 지정한다.<br>
+        > get : 서버에 사용자가 입력한 값을 전달하면서 요청시 사용자가 입력한 값들이 url에 노출되는 방식 (전달값에 제한이 있음)<br>
+        > post : 서버에 사용자가 입력한 값을 전달하면서 요청은 하되 url 에 노출되지않음 ( 전달값을 볼수 없고 , 크기제한 없음)<br>
+    </p>
+
+    <form method="get">
+        <label>검색할 내용 : </label>
+        <input type="text" size="30" name="search"> &nbsp;
+        <input type="submit" value="검색">
+    </form>
+    <p> submit 버튼을 눌렀을때 method 요청 전송방식으로 action 에 지정한 경로로 사용자가 입력한값을
+        (key=value) 전달한다.
+    </p>
+
+
+    <h3>fieldset : 폼요소를 그룹으로 묶는 태그 </h3>
+    <h3> legend : 묶은 폼요소에 명칭을 붙이는태그</h3>
+    <form>
+        <fieldset>
+            <legend>필드셋의 제목을 작성하는 부분이다</legend>
+            <label>입력1 : <input type ="text"></label><br>
+            <label>입력2 : </label><input type ="text"><br>
+            <label>입력3 : </label><input type ="text"><br>
+        </fieldset>
+        <br>
+
+        <fieldset>
+            <legend>필드셋으로 묶은 영역 별로 구분이된다</legend>
+            <label>입력1 : <input type ="text"></label><br>
+            <label>입력2 : </label><input type ="text"><br>
+            <label>입력3 : </label><input type ="text"><br>
+        </fieldset>
+    </form>
+
+    <h2>text 와 관련된 input 태그들</h2>
+    <form method="get">
+        <h3>type = "text"</h3>
+        <p>- 한줄짜리 텍스트 입력 할수있느 텍스트 상자이다.</p>
+        <label> 아이디 </label>
+        <input type="text" name="userId" size="20" placeholder="아이디를 입력하세요" value="frontend" maxlength="15" autofocus><br>
+
+        <br>
+        <h3>type= "password"</h3>
+        <p>- 비밀번호를 입력할수있는 텍스트 상자이다</p>
+        <label> 비밀번호 </label>
+        <input type ="password" name="userPwd" size="20" placeholder="비밀번호를 입력하세요" maxlength="15" required><br>
+        
+        <br>
+        <h3>type="search",type="url", type="email", type="tel"</h3>
+        <p>겉모습은 텍스트 필드와 비슷 하지만 각각의 정보에맞게 분화된 기능을 제공하는 텍스트 상자이다</p>
+
+        <label>검색</label>
+        <input type = "search" name = "searchText" placeholder="검색할 내용 입력"><br>
+
+        <label>홈페이지</label>
+        <input type = "url" name = "homepage" value="http://"><br>
+
+        <label>이메일</label>
+        <input type = "email" name = "email" placeholder="이메일을 입력하세요"><br>
+
+        <label>전화번호 : </label>
+        <input type = "tel" name = "phone" placeholder="전화번호를 입력하세요 " pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"><br>
+        <br>
+    
+       
+        <!-- html5 input type 에서 추가된 기능-->
+        <label>색상 : </label>
+        <input type= text name="color" list="mycolor">
+        <datalist id="mycolor">
+            <option value="black">검정색</option>
+            <option value="white">흰색</option>
+            <option value="skyblue">하늘색</option>
+        </datalist>
+
+        <br>
+        <input type="submit" value="전송"> &nbsp;
+        <input type="reset" value="다시입력">
+    </form>
+
+    <h2>숫자와 관련된 input 태그 </h2>
+    <form method="get">
+        <h3>type="number"</h3>
+        <p>입력창에 숫자를 입력하는 것이 기본이지만, 
+            브라우저에따라 스핀박스가 표시되기도 한다.<br>
+            (스핀박스 : 입력창 오른쪽 위/아래 화살표버튼)
+        </p>
+
+        <label>수량 : </label>
+        <input type="number" name= "amount" min= "0" max="100" value="0" step="5"> <br>
+
+        <p>슬라이드 바를 통해 숫자지정가능</p>
+        <input type="range" name="point" min= "0" max="100" value="50" step="10"> <br>
+        <br>
+        <input type="submit" value="전송"> &nbsp;
+        <input type="reset" value="다시입력">
+    </form>
+
+    <h2>날짜 /시간 관련된 input 태그</h2>
+    <h2>type="date/month/week/time/datetime/datetime-local"</h2><br>
+    <form method="get">
+        <label for = "dateIn">date : </label>
+        <input type = "date" name="dateInput" id="dateIn"><br>
+
+        <label>month</label>
+        <input type = "month" name = "monthIn"> <br>
+
+        <label>week</label>
+        <input type = "week" name = "weekIn"> <br>
+
+        <label>time</label>
+        <input type = "time" name = "timeIn"> <br>
+
+
+        <label>datetime</label><!--크롬 , 파이어폭스 지원안함-->
+        <input type = "datetime" name = "dtIn"> <br>
+
+        <label>datetime-local</label>
+        <input type = "datetime-local" name = "dtlIn"> <br>
+
+        <input type="submit" value="전송"> &nbsp;
+        <input type="reset" value="다시입력">
+    </form>
+
+    <h2>라디오 버튼과 체크박스 태그</h2>
+    <p>태그를 여러개 선언하여 하나의 용도로 사용할경우 name  속성의 값이 같아야한다.(name으로 그룹을만들어주는것)</p>
+    <form method="get">
+
+        <h3>type = "radio"</h3>
+        <label>성별 : </label>
+        <label>
+            <input type ="radio" id= "male" name = "gender" value="M">남자 
+        </label>
+
+        <input type = "radio" id= "female" name= "gender" value="F">
+        <label for="female">여자</label>
+
+        <br>
+
+
+        <h3>type="checkbox"</h3>
+        <label>취미 : </label>
+        <input type="checkbox" id="baseball" name="hobby" value="baseball" checked>
+        <label for ="baseball">야구</label>
+
+        <input type="checkbox" id="basketball" name="hobby" value="basketball" >
+        <label for ="basketball">농구</label>
+
+        <input type="checkbox" id="football" name="hobby" value="football" >
+        <label for ="football">축구</label>
+
+        <br>
+        <input type="submit" value="전송"> &nbsp;
+        <input type="reset" value="다시입력">
+    </form>
+
+    <form method = "get">
+        <h2>추가 input태그</h2>
+        <h3>type = "color"</h3>
+        <label>색상선택 : </label>
+        <input type ="color" name = "color"> <br>
+
+        <h3>type = "file"</h3>
+        <label>파일선택 : </label>
+        <input type = "file" name= "uploadfile"> <br>
+
+        <h3>type = "hidden"</h3>
+        <label>안보이게 : </label>
+        <input type = "hidden" name ="hiddenValue" value="1"> <br>
+        <br>
+        <input type="submit" value="전송"> &nbsp;
+        <input type="reset" value="다시입력">
+
+
+        <br><br>
+        <h3>type="button", type="submit" ,type="reset"</h3>
+        <input type="submit" value="전송"> &nbsp;
+        <input type="reset" value="취소">
+        아이디<input type = "text" name="id">
+        <input type= "button" value="아이디 중복확인" onclick="test();" ><br>
+        <script>
+            function test(){
+                alert("아이디 중복 확인 !! ");
+            }
+    
+        </script>
+        <button type ="button" onclick="alert('안녕')" >button</button><br>
+        <button type ="submit">submit</button><br> <!--  <button>submit</button><br> 디폴트 submit-->
+        <button type ="reset">reset</button><br>
+    
+    </form>
+    
+    
+    <!-- 사용자가 내용을 입력하지않고 여러 옵션중에서 선택하게 하고 싶을때 사용(드롭다운) -->
+
+    <form method="get">
+        <h2>select 태그와 option 태그 </h2>
+        <label>국적 : </label>
+        <select name="national" size="3" multiple>
+            <option value="ko">한국</option>
+            <option value="ch">중국</option>
+            <option value="jp">일본</option>
+            <option value="etc">기타</option>
+            <option selected>---</option>
+        </select>
+        
+        <br>
+        <br>
+
+        <input type="submit" value="전송"> &nbsp;
+        <input type="reset" value="취소">
+    </form>
+
+    <h2>textarea태그</h2>
+    <p>input type="text" 와 비슷하지만 여러줄을 입력할수있다</p>
+    <form method="get">
+        <textarea name="info" placeholder="입력하세요" cols="30" rows="5" style="resize: none;"></textarea>
+   
+        <br>
+        <br>
+
+        <input type="submit" value="전송"> &nbsp;
+        <input type="reset" value="취소">
+    </form>
+</body>
+</html>

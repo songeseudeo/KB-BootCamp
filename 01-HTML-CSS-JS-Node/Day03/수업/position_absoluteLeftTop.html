@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Absolute Position</title>
+  <style>
+    .box {
+      width: 100px;
+      height: 100px;
+      position: absolute;
+    }
+
+    .box:nth-child(1) {
+      background: red;
+      left: 10px;
+      top: 10px;
+    }
+
+    .box:nth-child(2) {
+      background: green;
+      left: 50px;
+      top: 50px;
+    }
+
+    .box:nth-child(3) {
+      background: blue;
+      left: 90px;
+      top: 90px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+</body>
+
+</html>
+
+
+
+<!-- 1. position: absolute
+/* 브라우저화면(viewport) 상에서 어디든지 원하는위치에자유롭게배치
+▪ 단, 상위요소중에position 속성이relative인 요소가 있다면, 
+⁃ 그중가장가까운요소의내부에서만요소를자유롭게배치
+⁃ 전체화면이아닌해당상위요소를기준으로offset 속성(top, left, bottom, right)이 적용 */
+
+2. 기준점 
+
+absolute는
+가장 가까운 position이 지정된 부모를 기준으로 한다.
+
+부모에 position이 없으면
+→ 브라우저 화면(viewport) 기준.
+
+
+
+3. left / top
+
+요소의 왼쪽 상단을 기준으로 이동.
+
+
+
+4. 겹침 현상 (Overlap)
+
+absolute 요소는 서로 겹칠 수 있다.
+
+나중에 작성된 요소가 위에 보인다.
+
+
+
+5. nth-child()
+
+형제 요소 중
+몇 번째인지 선택하는 CSS 선택자.
+
+.box:nth-child(1)
+ 현재 코드의 동작
+
+부모(body)에 position이 없음
+ 기준은 브라우저 화면(viewport)
+
+좌표 배치:
+
+red   → (10, 10)
+green → (50, 50)
+blue  → (90, 90)
+
+ 점점 오른쪽 아래로 이동
+ 서로 겹침 발생
+
+** 겹치는 이유
+
+absolute는
+
+문서 흐름에서 제거됨
+→ 다른 요소 공간을 차지하지 않음
+→ 겹칠 수 있음
+ z-index 개념 추가 (겹침 순서 조정)
+
+
+
+position
+https://developer.mozilla.org/ko/docs/Web/CSS/position
+
+z-index
+https://developer.mozilla.org/ko/docs/Web/CSS/z-index
+
+nth-child
+https://developer.mozilla.org/ko/docs/Web/CSS/:nth-child -->
