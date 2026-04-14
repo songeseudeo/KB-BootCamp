@@ -3,8 +3,8 @@
 ## 1. 📖 배운 내용
 - **주제**: 변수와 타입(이것이 자바다 교재 요약)
 - **1. 변수 선언**
-  - temp: 두 변수 값을 교환하는 방법
-    """
+  - `temp`: 두 변수 값을 교환하는 방법
+    '''
     int x = 3;
     int y = 5;
     System.out.println("x:" + x + ", y:" + y);
@@ -13,8 +13,8 @@
     x = y;
     y = temp;
     System.out.println("x:" + x + ", y:" + y);
-    """
-    > x:3, y:5
+    '''
+    > x:3, y:5 <br>
     > x:5, y:3
 - **2. 정수 타입**
 - 정수: byte, char, short, int, long
@@ -26,8 +26,8 @@
 - **8. 강제 타입 변환**
   - 큰 허용 범위 타입 -> 작은 허용 범위 타입
 - **13. 키보드 입력 데이터를 변수에 저장**
-  - scanner.nextLine() : <kbd>Enter 키를 누르면 입력된 문자열을 읽음
-  - .equals("q") : 입력된 문자열이 q라면 반복 중지
+  - `scanner.nextLine()` : <kbd>Enter<kbd 키를 누르면 입력된 문자열을 읽음
+  - `.equals("q")` : 입력된 문자열이 q라면 반복 중지
 
 ## 2. 📝 오늘의 실습 & 과제
 - [`study`](./study)
