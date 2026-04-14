@@ -8,14 +8,14 @@
     int x = 3;
     int y = 5;
     System.out.println("x:" + x + ", y:" + y);
-    >> x:3, y:5
 
     int temp = x;
     x = y;
     y = temp;
     System.out.println("x:" + x + ", y:" + y);
-    >> x:5, y:3
-    """ 
+    """
+    > x:3, y:5
+    > x:5, y:3
 - **2. 정수 타입**
 - 정수: byte, char, short, int, long
 - 실수: float, double
